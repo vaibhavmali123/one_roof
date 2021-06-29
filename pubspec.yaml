@@ -1,0 +1,153 @@
+name: one_roof
+description: A new Flutter application.
+
+# The following line prevents the package from being accidentally published to
+# pub.dev using `pub publish`. This is preferred for private packages.
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+# The following defines the version and build number for your application.
+# A version number is three numbers separated by dots, like 1.2.43
+# followed by an optional build number separated by a +.
+# Both the version and the builder number may be overridden in flutter
+# build by specifying --build-name and --build-number, respectively.
+# In Android, build-name is used as versionName while build-number used as versionCode.
+# Read more about Android versioning at https://developer.android.com/studio/publish/versioning
+# In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
+# Read more about iOS versioning at
+# https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
+version: 1.0.0+3
+
+environment:
+  sdk: ">=2.7.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_svg: ^0.19.1
+  get: ^3.25.6
+  google_fonts: ^1.1.1
+  rxdart: ^0.22.2
+  pin_code_text_field: ^1.7.0
+  device_preview: ^0.5.0
+  auto_size_text: ^2.1.0
+  fluttertoast: ^7.1.8
+  http: ^0.12.1
+  expandable: ^4.1.3
+  hive: ^1.4.4+1
+  path_provider: ^1.6.23
+  cached_network_image: ^2.0.0
+  flutter_search_bar: ^2.0.0
+  image_picker: ^0.6.7+22
+  flutter_bloc: ^7.0.0-dev.2
+  equatable: ^1.2.2
+  flutter_rating_bar: ^3.0.0
+  carousel_slider: ^3.0.0
+  image_cropper: ^1.2.0
+  url_launcher: ^5.7.8
+  multi_select_flutter: ^3.1.7
+  flutter_uploader: ^1.2.1
+  dio:
+  firebase_core: ^0.5.2
+  firebase_messaging: ^7.0.3
+  flutter_local_notifications: ^3.0.1
+  file_picker: ^2.1.5+1
+  flutter_html: ^1.1.1
+  share: 0.6.5
+  flutter_downloader: ^1.1.5
+  permission_handler: ^5.0.1
+  ext_storage: ^1.0.3
+  intl: ^0.16.1
+  razorpay_flutter: ^1.1.4
+  change_app_package_name: ^0.1.2
+  store_redirect: ^1.0.1
+  # The following adds the Cupertino Icons font to your application.
+  # Use with the CupertinoIcons class for iOS style icons.
+  cupertino_icons: ^1.0.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+# For information on the generic Dart part of this file, see the
+# following page: https://dart.dev/tools/pub/pubspec
+
+# The following section is specific to Flutter.
+flutter:
+
+  # The following line ensures that the Material Icons font is
+  # included with your application, so that you can use the icons in
+  # the material Icons class.
+  uses-material-design: true
+
+  # To add assets to your application, add an assets section, like this:
+  assets:
+    - assets/images/building.png
+    - assets/images/engineers.png
+    - assets/images/back_icon.png
+    - assets/images/buildings_image.png
+    - assets/images/building.svg
+    - assets/images/hire icons.png
+    - assets/images/work icons.png
+    - assets/images/drop down_icon.png
+    - assets/images/dropDown_icon.png
+    - assets/images/Thank you graphic.png
+    - assets/images/thank_you.png
+    - assets/images/Icon feather-user.png
+    - assets/images/Icon_feather_phone_call.png
+    - assets/images/Icon_feather_unlock.png
+    - assets/images/app_icon.jpeg
+    - assets/images/chatt icon.svg
+    - assets/images/soil_investigation.svg
+    - assets/images/soil investigation icon.png
+    - assets/images/next.svg
+    - assets/images/thank you for request graphic.svg
+    - assets/images/Icon_close.svg
+    - assets/images/thank you for request graphic.png
+    - assets/images/profile pic.svg
+    - assets/images/profile pic.png
+    - assets/images/Icon-ad.png
+    - assets/images/next.png
+    - assets/images/Icon-my orders.png
+    - assets/images/Icon-payment.png
+    - assets/images/Icon-feedback.png
+    - assets/images/Icon ionic-md-help-circle.png
+    - assets/images/Icon awesome-star.png
+    - assets/images/Icon open-account-logout.png
+    - assets/images/Icon material-edit.png
+    - assets/images/Serch ends here_graphic.png
+    - assets/images/feedback_graphic.png
+    - assets/images/Empty state.png
+    - assets/images/Icon ionic-ios-send.svg
+    - assets/images/attachment-icon.svg
+    - assets/images/Icon ionic-ios-send.png
+    - assets/images/Icon material-thumb-up.png
+    - assets/images/Icon awesome-ticket-alt.png
+    - assets/FaqJson
+    - assets/images/Sorry graphic.png
+    - assets/images/contact admin_icon.png
+    - assets/images/process successfully_icon.png
+    - assets/images/Congrats_icon.png
+  #   - images/a_dot_ham.jpeg
+  # An image asset can refer to one or more resolution-specific "variants", see
+  # https://flutter.dev/assets-and-images/#resolution-aware.
+
+  # For details regarding adding assets from package dependencies, see
+  # https://flutter.dev/assets-and-images/#from-packages
+
+  # To add custom fonts to your application, add a fonts section here,
+  # in this "flutter" section. Each entry in this list should have a
+  # "family" key with the font family name, and a "fonts" key with a
+  # list giving the asset and other descriptors for the font. For
+  # example:
+  fonts:
+    - family: One_Roof
+      fonts:
+        - asset: fonts/One_Roof.ttf
+  #       - asset: fonts/Schyler-Italic.ttf
+  #         style: italic
+  #   - family: Trajan Pro
+  #     fonts:
+  #       - asset: fonts/TrajanPro.ttf
+  #       - asset: fonts/TrajanPro_Bold.ttf
+  #         weight: 700
+  #
+  # For details regarding fonts from package dependencies,
+  # see https://flutter.dev/custom-fonts/#from-packages
