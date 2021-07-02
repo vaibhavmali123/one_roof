@@ -41,7 +41,8 @@ class EndApi {
   static String adsDuration = 'ads_duration.php';
   static String postAdvertise = 'post_advertisement.php';
   static String verifyOtp = 'verify_otp.php';
-  static String resendOt='resend_otp.php';
+  static String resendOt = 'resend_otp.php';
   static String units = 'units.php';
   static String forgotPassword = 'forget_password_send.php';
+  static String paymentUpdate = 'payment.php';
 }

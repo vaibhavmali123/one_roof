@@ -46,7 +46,6 @@ class AllOrdersState extends State<AllOrders> {
                             return GestureDetector(
                               onTap: () {
                                 print('LLLLLLLLLLLLLLL ${list[index]['project_name']} ');
-                                Get.to(OrderDetails(list[index][ApiKeys.crNo], list[index]['status'], list[index]['project_name']));
                                 switch (userType) {
                                   case "hire":
                                     if (list[index]['status'] != '4') {
