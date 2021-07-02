@@ -24,7 +24,7 @@ class WorkerDetailsState extends State<WorkerDetails> {
   List<String> listMachine = ['JCB', 'BOB cat', 'Dumper', 'Crane'];
   List<Order> listMac = [];
   List<dynamic> list = [];
-  String workerId, srNo, name, email, mno, userType, skilled, unSkilled, techinal, turnover;
+  String workerId, srNo, name, email, mno, userType, skilled, unSkilled, techinal, turnover, experience;
   double rating = 1;
 
   WorkerDetailsState({this.workerId, this.srNo, this.name, this.email, this.mno});
@@ -38,7 +38,7 @@ class WorkerDetailsState extends State<WorkerDetails> {
     NotificationService.configureNotification();
 
     getUserDetails();
-    userType == Constants.hire ? getWorkerDetails() : getUserDetails();
+    userType == Constants.hire ? getWorkerDetails() : getWorkerDetails();
     print("NAME ${name} ${srNo} ${email} ${mno}");
   }
 
@@ -106,8 +106,10 @@ class WorkerDetailsState extends State<WorkerDetails> {
                                                   Row(
                                                     mainAxisAlignment: MainAxisAlignment.start,
                                                     children: [
-                                                      Text(name != null && name != "" && name != " " ? name : " ",
-                                                          overflow: TextOverflow.ellipsis, softWrap: false, style: GoogleFonts.openSans(textStyle: TextStyle(fontSize: 14, color: color.colorConvert('#343048'), fontWeight: FontWeight.w700, letterSpacing: 0.0))),
+                                                      Container(
+                                                        child: Text(name != null && name != "" && name != " " ? name : " ",
+                                                            overflow: TextOverflow.ellipsis, maxLines: 2, softWrap: false, style: GoogleFonts.openSans(textStyle: TextStyle(fontSize: 14, color: color.colorConvert('#343048'), fontWeight: FontWeight.w700, letterSpacing: 0.0))),
+                                                      ),
                                                     ],
                                                   ),
                                                   Row(
@@ -179,10 +181,10 @@ class WorkerDetailsState extends State<WorkerDetails> {
                                         SizedBox(
                                           width: 18,
                                         ),
-                                        userType == Constants.hire
+                                        experience != "" && experience != null
                                             ? Container(
                                                 width: Get.size.width / 1.4,
-                                                child: Text('Experience He is been working from past 3 years in this industry!',
+                                                child: Text('Experience He is been working from past ' + experience + "  in this industry!",
                                                     overflow: TextOverflow.ellipsis, softWrap: false, maxLines: 2, style: GoogleFonts.openSans(textStyle: TextStyle(fontSize: 12, color: color.colorConvert('#6B6977'), fontWeight: FontWeight.w600, letterSpacing: 0.0))),
                                               )
                                             : Container(),
@@ -362,6 +364,8 @@ class WorkerDetailsState extends State<WorkerDetails> {
     String userId = appDb.get(ApiKeys.userId);
 
     var map = {'user_id': workerId};
+    print("REQUEST ${map.toString()}");
+
     ApiHandler.postApi(ApiProvider.baseUrl, EndApi.workerDetails, map).then((value) {
       setState(() {
         showLoader = false;
@@ -380,6 +384,7 @@ class WorkerDetailsState extends State<WorkerDetails> {
         unSkilled = result.nonSkilledLabour != null && result.nonSkilledLabour != "" && result.nonSkilledLabour != " " ? result.nonSkilledLabour : " ";
         techinal = result.technicalStaff != null && result.technicalStaff != "" && result.technicalStaff != " " ? result.technicalStaff : " ";
         turnover = result.turnover != null && result.turnover != "" && result.turnover != " " ? result.turnover : " ";
+        experience = result.experience != null && result.experience != "" && result.experience != " " ? experience = result.experience : "";
         rating = result.rating == null || result.rating == "" ? 1 : result.rating;
         showLoader = false;
       });
@@ -395,9 +400,12 @@ class WorkerDetailsState extends State<WorkerDetails> {
   void getUserDetails() {
     Box<String> appDb;
     appDb = Hive.box(ApiKeys.appDb);
-
     setState(() {
       userType = appDb.get(ApiKeys.type);
+    });
+    setState(() {
+      showLoader = false;
+
       print("NAME userType ${userType}");
     });
   }

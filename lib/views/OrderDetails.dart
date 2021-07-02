@@ -27,7 +27,7 @@ class OrderDetailsState extends State<OrderDetails> {
   // FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
 
-  String srNo, status;
+  String srNo, status, hireUserId;
   String firstname, lastName, email, mno, userType, projectName;
   OrderDetailsState(this.srNo, this.status, this.projectName);
   List<dynamic> list = [];
@@ -145,7 +145,7 @@ class OrderDetailsState extends State<OrderDetails> {
                                 onTap: () {
                                   print("NAME ${list[0]['name']}");
                                   Get.to(WorkerDetails(
-                                    workerId: list[0]['id'],
+                                    workerId: userType == Constants.hire ? list[0]['id'] : hireUserId,
                                     srNo: list[0]['sr_no'],
                                     name: list[0]['name'],
                                     email: list[0]['email'],
@@ -571,6 +571,7 @@ class OrderDetailsState extends State<OrderDetails> {
       print("RES ${value.toString()}");
       setState(() {
         showLoader = false;
+
         list = value['result'];
       });
       for (int i = 0; i < list.length; i++) {

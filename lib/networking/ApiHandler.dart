@@ -8,7 +8,7 @@ class ApiHandler {
   static var client = http.Client();
 
   static Future<Map<String, dynamic>> postApi(String baseUrl, String endApi, var map) async {
-    var response = await http.post(Uri.parse(baseUrl + endApi), body: map);
+    var response = await http.post(baseUrl + endApi, body: map);
     print("RESPONSE body: ${response.body}");
     debugPrint("RESPONSE LONG: ${response.body}", wrapWidth: 1024);
 

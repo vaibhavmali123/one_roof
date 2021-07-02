@@ -198,6 +198,7 @@ class EditProfileState extends State<EditProfile> {
                                   TextFormField(
                                     autofocus: false,
                                     maxLength: 10,
+                                    enabled: false,
                                     inputFormatters: <TextInputFormatter>[
                                       FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
                                     ],
@@ -444,7 +445,8 @@ class EditProfileState extends State<EditProfile> {
     Box<String> appDb;
     appDb = Hive.box(ApiKeys.appDb);
     String userId = appDb.get(ApiKeys.userId);
-    var map = {"id": userId, "first_name": nameCtrl.value.text, "mobile_number": mnoCtrl.value.text, "email": emailCtrl.value.text, "address": addressCtrl.value.text, "pan_no": panCtrl.value.text, "gst_no": gstCtrl.value.text, "experience": experienceCtrl.text};
+    String type = appDb.get(ApiKeys.type);
+    var map = {"id": userId, "types": type, "organization_name": nameCtrl.value.text, "mobile_number": mnoCtrl.value.text, "email": emailCtrl.value.text, "address": addressCtrl.value.text, "pan_no": panCtrl.value.text, "gst_no": gstCtrl.value.text, "experience": experienceCtrl.text};
     ApiHandler.putApi(ApiProvider.baseUrl, EndApi.editProfile, map).then((value) {
       setState(() {
         showLoader = false;

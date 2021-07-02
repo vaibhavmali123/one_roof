@@ -68,9 +68,10 @@ class Result {
   String nonSkilledLabour;
   String technicalStaff;
   String turnover;
-  String rating;
+  Null rating;
+  String experience;
 
-  Result({this.id, this.firstName, this.lastName, this.mobileNumber, this.email, this.category, this.skilledLabour, this.nonSkilledLabour, this.technicalStaff, this.turnover, this.rating});
+  Result({this.id, this.firstName, this.lastName, this.mobileNumber, this.email, this.category, this.skilledLabour, this.nonSkilledLabour, this.technicalStaff, this.turnover, this.rating, this.experience});
 
   Result.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -84,6 +85,7 @@ class Result {
     technicalStaff = json['technical_staff'];
     turnover = json['turnover'];
     rating = json['rating'];
+    experience = json['experience'];
   }
 
   Map<String, dynamic> toJson() {
@@ -99,6 +101,7 @@ class Result {
     data['technical_staff'] = this.technicalStaff;
     data['turnover'] = this.turnover;
     data['rating'] = this.rating;
+    data['experience'] = this.experience;
     return data;
   }
 }
