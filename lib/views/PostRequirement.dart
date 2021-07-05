@@ -397,7 +397,7 @@ class PostRequirementState extends State<PostRequirement> {
       'brief_description': briefCtrl.value.text,
       'file': uploadedFileUrl != null ? uploadedFileUrl : "exampleUrl",
       'category_name': categoryName,
-      'fcm_token': fcmToken,
+      'fcm_token': "fcmToken",
       'quantity': qtyCtrl.text.toString(),
       'unit': selectedUnit.toString() != null ? selectedUnit.toString() : "",
       "me_details": json.encode(listRequest),
@@ -531,7 +531,7 @@ class PostRequirementState extends State<PostRequirement> {
       showLoaderFile = true;
       showLoader = true;
       // uploadImage(ApiProvider.baseUrlUpload,image);
-      uploader(fileName: fileName, directory: dir, image: image);
+      uploader(fileName: fileName, directory: dir);
     });
   }
 
@@ -542,26 +542,61 @@ class PostRequirementState extends State<PostRequirement> {
         image = File(pickedFile.path);
         String fileName = image.path.split('/').last;
         var dir = image.parent.path;
+        fileStr = fileName;
+
         print("image ${image}");
         print("fileName ${fileName}");
         print("dir ${dir}");
         showLoader = true;
         uploader(fileName: fileName, directory: dir);
-
         setState(() {
           croppedImage = image;
         });
       }
     });
+
   }
 
+  Future<Map<String, dynamic>> uploader({fileName, directory}) async {
+    dynamic prog;
+    Map<String, dynamic> map;
+    final uploader = FlutterUploader();
+    //String fileName = await file.path.split('/').last;
+
+    final taskId = await uploader.enqueue(url: ApiProvider.baseUrlUpload, files: [FileItem(filename: fileName, savedDir: directory)], method: UploadMethod.POST, headers: {"apikey": "api_123456", "userkey": "userkey_123456"}, showNotification: true);
+    final subscription = uploader.progress.listen((progress) {});
+
+    final subscription1 = uploader.result.listen((result) {
+//    print("Progress result ${result.response}");
+
+      // return result.response;
+    }, onError: (ex, stacktrace) {
+      setState(() {
+        showLoader = false;
+      });
+    });
+    subscription1.onData((data) async {
+      map = await json.decode(data.response);
+      map = await json.decode(data.response);
+      print("PATH data ${map['url']}");
+      setState(() {
+        showLoader = false;
+      });
+      uploadedFileUrl = map['url'].toString();
+    });
+    return map;
+  }
+
+  /*
   Future<Map<String, dynamic>> uploader({fileName, directory, File image}) async {
     var request = http.MultipartRequest('POST', Uri.parse(ApiProvider.baseUrlUpload));
     dynamic prog;
     Map<String, dynamic> map;
     final uploader = FlutterUploader();
     String fileName = await image.path.split('/').last;
-
+    setState(() {
+      showLoader = false;
+    });
     print("FILENAME ${fileName} FILENAME ${directory}");
 
     final taskId = await uploader.enqueue(url: ApiProvider.baseUrlUpload, files: [FileItem(filename: fileName, savedDir: directory)], method: UploadMethod.POST, headers: {"apikey": "api_123456", "userkey": "userkey_123456"}, showNotification: true);
@@ -584,6 +619,7 @@ class PostRequirementState extends State<PostRequirement> {
     });
     return map;
   }
+*/
 
   uploadImage(String url, File croppedImage) async {
     var postUri = Uri.parse(url);

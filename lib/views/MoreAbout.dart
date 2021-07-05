@@ -385,8 +385,11 @@ class MoreAboutState extends State<MoreAbout> {
     Box<String> appDb;
     appDb = Hive.box(ApiKeys.appDb);
     String userId = appDb.get(ApiKeys.userId);
-    var map = {"id": userId, "location": selectedLoc, "hiring_type": selectedBuilders,
-      "director": directorNameCtrl.value.text, 'hire_designation': selectedDesignation,
+    var map = {"id": userId,
+      "location": selectedLoc,
+      "hiring_type": selectedBuilders,
+      "director": directorNameCtrl.value.text,
+      'hire_designation': selectedDesignation,
       "organization_name_hire": orgNameCtrl.value.text, "types": 'hire'};
     print("orgNameCtrl ${map.toString()}");
 

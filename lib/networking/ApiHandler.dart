@@ -24,7 +24,7 @@ class ApiHandler {
   }
 
   static Future<Map<String, dynamic>> requestApi(String baseUrl, String endApi) async {
-    var response = await client.get(Uri.parse(baseUrl + endApi));
+    var response = await client.get(baseUrl + endApi);
     Map<String, dynamic> mapResponse;
 
     try {
@@ -46,7 +46,7 @@ class ApiHandler {
   ) async {
     Map<String, dynamic> mapResponse;
 
-    var response = await client.put(Uri.parse(baseUrl + endApi), body: json.encode(map));
+    var response = await client.put(baseUrl + endApi, body: json.encode(map));
     try {
       if (response.statusCode == 200 || response.statusCode == 201) {
         print("RESPONSE: ${response.body.toString()}");

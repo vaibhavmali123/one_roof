@@ -21,7 +21,7 @@ class SearchPageState extends State<SearchPage> {
   bool showLoader = true;
   String userType;
   List<dynamic> listWorkerOrders = [];
-
+  bool isResultEmpty=false;
   @override
   void initState() {
     // TODO: implement initState
@@ -92,7 +92,7 @@ class SearchPageState extends State<SearchPage> {
           showLoader == false
               ? Container(
                   width: Get.size.width / 1.2,
-                  child: list != null || list.length > 0
+                  child: list != null || list.length > 0 || isResultEmpty==true
                       ? ListView.builder(
                           itemCount: list.length,
                           itemBuilder: (context, index) {
@@ -237,6 +237,7 @@ class SearchPageState extends State<SearchPage> {
       print("RESPONSE1 ${value.toString()}");
       setState(() {
         showLoader = false;
+        value['count']=="0"?isResultEmpty=true:isResultEmpty=false;
         list = value['result'];
       });
 
@@ -262,6 +263,7 @@ class SearchPageState extends State<SearchPage> {
 
       setState(() {
         showLoader = false;
+        value['count']=="0"?isResultEmpty=true:isResultEmpty=false;
         list = value['result'];
       });
       print("VALUE list worker ${listWorkerOrders.length}");

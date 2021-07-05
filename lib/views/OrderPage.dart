@@ -9,6 +9,7 @@ import 'package:one_roof/utils/color.dart';
 import 'package:one_roof/views/AllOrders.dart';
 import 'package:one_roof/views/BottomNavigationScreen.dart';
 import 'package:one_roof/views/CompletedOrders.dart';
+import 'package:one_roof/views/HomePage.dart';
 import 'package:one_roof/views/InProgressOrders.dart';
 import 'package:one_roof/views/OpenOrders.dart';
 
@@ -60,7 +61,7 @@ class OrderPageState extends State<OrderPage> {
                                       scale: 1.8,
                                     ),
                                     onTap: () {
-                                      Get.back();
+                                      Get.to(HomePage());
                                     },
                                   )),
                               Expanded(

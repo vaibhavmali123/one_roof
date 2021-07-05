@@ -223,7 +223,8 @@ class LoginScreenState extends State<LoginScreen> {
                     /*color:snapshot.hasError==false?color.colorConvert(color.primaryColor):Colors.black12,*/
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
                     onPressed: () {
-                      var objRequest = {"mobile_number": mobileController.value.text, 'fcm_token': fcmToken, "password": passwordController.value.text};
+                      var objRequest = {"mobile_number": mobileController.value.text,
+                        'fcm_token': "fcmToken", "password": passwordController.value.text};
                       print('RES MAP ${objRequest.toString()}');
                       ApiHandler.postApi(ApiProvider.baseUrl, EndApi.login, objRequest).then((value) {
                         LoginModel loginModel = LoginModel();

@@ -242,7 +242,7 @@ class HomePageState extends State<HomePage> {
                     height: 5,
                   ),
                   Expanded(
-                      flex: 6,
+                      flex:dimens<700?4:6,
                       child: Column(
                         children: [
                           Image.asset(

@@ -409,7 +409,9 @@ class OrderDetailsState extends State<OrderDetails> {
                     height: 50,
                     width: 160,
                     child: list != null
-                        ? RaisedButton(
+                        ?
+                    Container()
+                    /*RaisedButton(
                             onPressed: () {},
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(12.0),
@@ -419,7 +421,7 @@ class OrderDetailsState extends State<OrderDetails> {
                               'Request Admin',
                               style: TextStyle(color: Colors.white),
                             ),
-                          )
+                          )*/
                         : Container(),
                   )
                 ],

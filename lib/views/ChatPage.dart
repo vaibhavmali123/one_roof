@@ -1,7 +1,13 @@
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_uploader/flutter_uploader.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:one_roof/networking/ApiHandler.dart';
 import 'package:one_roof/networking/ApiKeys.dart';
 import 'package:one_roof/networking/ApiProvider.dart';
@@ -21,6 +27,10 @@ class ChatPageState extends State<ChatPage>
   List<String>listChat=[];
   final messageEditingCtrl=TextEditingController();
   String userType,userId;
+  final picker = ImagePicker();
+  File image, croppedImage;
+  String uploadedFileUrl,fileStr;
+  bool showLoader;
 
   @override
   void initState() {
@@ -128,17 +138,22 @@ class ChatPageState extends State<ChatPage>
             ),
           ),
           SizedBox(width:10,),
-          Container(
-            width:50,
-            height:45,
-            decoration:BoxDecoration(
-                borderRadius:BorderRadius.circular(10.0),
-                border:Border.all(width:1,color:Colors.black54)
-            ),
-            child:Center(
-              child:SvgPicture.asset('assets/images/attachment-icon.svg',color:Colors.black54,),
-            ),
-          )
+            GestureDetector(
+              child:Container(
+                width:50,
+                height:45,
+                decoration:BoxDecoration(
+                    borderRadius:BorderRadius.circular(10.0),
+                    border:Border.all(width:1,color:Colors.black54)
+                ),
+                child:Center(
+                  child:SvgPicture.asset('assets/images/attachment-icon.svg',color:Colors.black54,),
+                ),
+              ),
+              onTap:(){
+                _showPicker(context);
+              },
+            )
         ],
       ),
     );
@@ -175,5 +190,106 @@ class ChatPageState extends State<ChatPage>
       userId=appDb.get(ApiKeys.userId);
       userType=appDb.get(ApiKeys.type);
     });
+  }
+
+  void _showPicker(BuildContext context) {
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext bc) {
+          return SafeArea(
+            child: Container(
+              child: new Wrap(
+                children: <Widget>[
+                  new ListTile(
+                      leading: new Icon(Icons.photo_library),
+                      title: new Text('Document from Library'),
+                      onTap: () {
+                        getDocFromLib();
+                        Navigator.of(context).pop();
+                      }),
+                  new ListTile(
+                    leading: new Icon(Icons.photo_camera),
+                    title: new Text('Camera'),
+                    onTap: () {
+                      getImageFromCamera();
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              ),
+            ),
+          );
+        });
+  }
+
+  void getDocFromLib() async {
+    FilePickerResult result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['jpg', 'pdf', 'docx'],
+    );
+    print("result ${result.paths[0]}");
+    setState(() {
+      image = File(result.paths[0]);
+      String fileName = image.path.split('/').last;
+      var dir = image.parent.path;
+
+      print("image ${image}");
+      print("fileName ${fileName}");
+      print("dir ${dir}");
+      showLoader = true;
+
+      uploader(fileName: fileName, directory: dir);
+    });
+  }
+
+  Future getImageFromCamera() async {
+    final pickedFile = await picker.getImage(source: ImageSource.camera);
+    setState(() {
+      if (pickedFile != null) {
+        image = File(pickedFile.path);
+        String fileName = image.path.split('/').last;
+        var dir = image.parent.path;
+        fileStr = fileName;
+
+        print("image ${image}");
+        print("fileName ${fileName}");
+        print("dir ${dir}");
+        showLoader = true;
+        uploader(fileName: fileName, directory: dir);
+        setState(() {
+          croppedImage = image;
+        });
+      }
+    });
+  }
+
+  Future<Map<String, dynamic>> uploader({fileName, directory}) async {
+    dynamic prog;
+    Map<String, dynamic> map;
+    final uploader = FlutterUploader();
+    //String fileName = await file.path.split('/').last;
+
+    final taskId = await uploader.enqueue(url: ApiProvider.baseUrlUpload, files: [FileItem(filename: fileName, savedDir: directory)], method: UploadMethod.POST, headers: {"apikey": "api_123456", "userkey": "userkey_123456"}, showNotification: true);
+    final subscription = uploader.progress.listen((progress) {});
+    ToastMessages.showToast(message:"File submit successfully",type:true);
+    final subscription1 = uploader.result.listen((result) {
+//    print("Progress result ${result.response}");
+
+      // return result.response;
+    }, onError: (ex, stacktrace) {
+      setState(() {
+        showLoader = false;
+      });
+    });
+    subscription1.onData((data) async {
+      map = await json.decode(data.response);
+      map = await json.decode(data.response);
+      print("PATH data ${map['url']}");
+      setState(() {
+        showLoader = false;
+      });
+      uploadedFileUrl = map['url'].toString();
+    });
+    return map;
   }
 }

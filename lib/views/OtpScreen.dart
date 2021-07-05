@@ -239,9 +239,11 @@ class OtpScreenState extends State<OtpScreen> {
     appDb = Hive.box(ApiKeys.appDb);
     String userId = Database.getUserId();
 
-    var obj = {'id': userId != null ? userId : user_id, 'otp': otpText.toString(), "first_name": firstName, 'last_name': lastName, 'fcm_token': fcmToken, 'mobile_number': mNo, 'email': email, 'password': password, 'types': accountType};
+    var obj = {'id': userId != null ? userId : user_id,
+      'otp': otpText.toString(), "first_name": firstName,
+      'last_name': lastName, 'fcm_token': "fcmToken", 'mobile_number': mNo, 'email': email, 'password': password, 'types': accountType};
     print("DDDDDDDDDD ${obj.toString()}");
-    ApiHandler.postApi('http://oneroofcm.com/admin/api/', 'verify_otp.php', obj).then((value) {
+    ApiHandler.postApi(ApiProvider.baseUrl,EndApi.verifyOtp, obj).then((value) {
       print("XXXXXXXXXXXXXXXXX ${value.toString()}");
       VerifyOtpModel verifyOtp;
       setState(() {

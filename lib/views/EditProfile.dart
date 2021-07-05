@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_uploader/flutter_uploader.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:hive/hive.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
@@ -62,32 +63,46 @@ class EditProfileState extends State<EditProfile> {
               ),
               AppBar(
                 backgroundColor: Colors.white,
-                elevation: 2,
-                automaticallyImplyLeading: false,
+                elevation:0,
+                automaticallyImplyLeading:false,
                 centerTitle: true,
                 actions: [
+
                   Container(
-                    width: Get.size.width,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
+                    width:Get.size.width,
+                    child:Row(
+                      mainAxisAlignment:MainAxisAlignment.start,
                       children: [
-                        SizedBox(
-                          width: 14,
-                        ),
                         Expanded(
-                          flex: 8,
-                          child: Text('Edit Profile', style: TextStyle(fontSize: 17, color: Colors.black, fontWeight: FontWeight.w700)),
-                        ),
+                            flex:1,
+                            child:GestureDetector(
+                              onTap:(){
+                                Get.back();
+                              },
+                              child: Image.asset(
+                                'assets/images/back_icon.png',
+                                scale: 1.8,
+                              ),
+                            )),
                         Expanded(
-                          flex: 1,
-                          child: Container(),
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),
+                            flex:5,
+                            child:Container(
+                              child:Text('Edit Profile',
+                                  style: GoogleFonts.openSans(
+                                      textStyle: TextStyle(
+                                          fontSize: 14,
+                                          color: color.colorConvert('#343048'),
+                                          fontWeight: FontWeight.w700,
+                                          letterSpacing: 0.0))),
+                            )),
+                        Expanded(
+                          flex:1,
+                          child:Container(),
+                        )
                       ],
                     ),
                   ),
+
                 ],
               )
             ],
@@ -450,7 +465,7 @@ class EditProfileState extends State<EditProfile> {
     ApiHandler.putApi(ApiProvider.baseUrl, EndApi.editProfile, map).then((value) {
       setState(() {
         showLoader = false;
-        appDb.put(ApiKeys.first_name, nameCtrl.value.text);
+        //appDb.put(ApiKeys.first_name, nameCtrl.value.text);
         appDb.put(ApiKeys.mobile_number, mnoCtrl.value.text);
         appDb.put(ApiKeys.email, emailCtrl.value.text);
         appDb.put(ApiKeys.address, addressCtrl.value.text);
