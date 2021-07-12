@@ -33,25 +33,15 @@ class Result {
   String lastName;
   String mobileNumber;
   String email;
-  Null orgnizationNameHire;
+  String types;
+  String organizationNameHire;
   String organizationNameWork;
   String address;
   String panNo;
   String gstNo;
   String experience;
 
-  Result(
-      {this.id,
-        this.firstName,
-        this.lastName,
-        this.mobileNumber,
-        this.email,
-        this.orgnizationNameHire,
-        this.organizationNameWork,
-        this.address,
-        this.panNo,
-        this.gstNo,
-        this.experience});
+  Result({this.id, this.firstName, this.lastName, this.mobileNumber, this.email, this.types, this.organizationNameHire, this.organizationNameWork, this.address, this.panNo, this.gstNo, this.experience});
 
   Result.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -59,7 +49,8 @@ class Result {
     lastName = json['last_name'];
     mobileNumber = json['mobile_number'];
     email = json['email'];
-    orgnizationNameHire = json['orgnization_name_hire'];
+    types = json['types'];
+    organizationNameHire = json['organization_name_hire'];
     organizationNameWork = json['organization_name_work'];
     address = json['address'];
     panNo = json['pan_no'];
@@ -74,7 +65,8 @@ class Result {
     data['last_name'] = this.lastName;
     data['mobile_number'] = this.mobileNumber;
     data['email'] = this.email;
-    data['orgnization_name_hire'] = this.orgnizationNameHire;
+    data['types'] = this.types;
+    data['organization_name_hire'] = this.organizationNameHire;
     data['organization_name_work'] = this.organizationNameWork;
     data['address'] = this.address;
     data['pan_no'] = this.panNo;

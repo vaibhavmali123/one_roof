@@ -370,10 +370,14 @@ class WorkerDetailsState extends State<WorkerDetails> {
       setState(() {
         showLoader = false;
         print("RESPONSE ${value.toString()}");
+        print("RESPONSE listMac ${listMac.length}");
 
         if (WorkerDetailsModel.fromJson(value).order != null) {
           listMac = WorkerDetailsModel.fromJson(value).order.toList();
         }
+        print("RESPONSE ${value.toString()}");
+        print("RESPONSE listMac ${listMac.length}");
+
         showLoader = false;
         Result result = WorkerDetailsModel.fromJson(value).result;
 
@@ -385,7 +389,18 @@ class WorkerDetailsState extends State<WorkerDetails> {
         techinal = result.technicalStaff != null && result.technicalStaff != "" && result.technicalStaff != " " ? result.technicalStaff : " ";
         turnover = result.turnover != null && result.turnover != "" && result.turnover != " " ? result.turnover : " ";
         experience = result.experience != null && result.experience != "" && result.experience != " " ? experience = result.experience : "";
-        rating = result.rating == null || result.rating == "" ? 1 : result.rating;
+
+        if (result.rating == null || result.rating == "") {
+          setState(() {
+            rating = 1;
+          });
+        } else {
+          setState(() {
+            rating = double.parse(result.rating);
+          });
+        }
+        setState(() {});
+        print("RATING ${result.rating}");
         showLoader = false;
       });
     });

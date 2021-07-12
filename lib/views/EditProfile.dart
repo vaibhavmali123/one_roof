@@ -63,20 +63,19 @@ class EditProfileState extends State<EditProfile> {
               ),
               AppBar(
                 backgroundColor: Colors.white,
-                elevation:0,
-                automaticallyImplyLeading:false,
+                elevation: 0,
+                automaticallyImplyLeading: false,
                 centerTitle: true,
                 actions: [
-
                   Container(
-                    width:Get.size.width,
-                    child:Row(
-                      mainAxisAlignment:MainAxisAlignment.start,
+                    width: Get.size.width,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Expanded(
-                            flex:1,
-                            child:GestureDetector(
-                              onTap:(){
+                            flex: 1,
+                            child: GestureDetector(
+                              onTap: () {
                                 Get.back();
                               },
                               child: Image.asset(
@@ -85,24 +84,17 @@ class EditProfileState extends State<EditProfile> {
                               ),
                             )),
                         Expanded(
-                            flex:5,
-                            child:Container(
-                              child:Text('Edit Profile',
-                                  style: GoogleFonts.openSans(
-                                      textStyle: TextStyle(
-                                          fontSize: 14,
-                                          color: color.colorConvert('#343048'),
-                                          fontWeight: FontWeight.w700,
-                                          letterSpacing: 0.0))),
+                            flex: 5,
+                            child: Container(
+                              child: Text('Edit Profile', style: GoogleFonts.openSans(textStyle: TextStyle(fontSize: 14, color: color.colorConvert('#343048'), fontWeight: FontWeight.w700, letterSpacing: 0.0))),
                             )),
                         Expanded(
-                          flex:1,
-                          child:Container(),
+                          flex: 1,
+                          child: Container(),
                         )
                       ],
                     ),
                   ),
-
                 ],
               )
             ],
@@ -431,18 +423,25 @@ class EditProfileState extends State<EditProfile> {
       setState(() {
         listResult = profileData.result;
         showLoader = false;
+
+        print("RESPONSE l${listResult[0].gstNo}");
+        String name = listResult[0].firstName;
+        if (listResult[0].types == "hire") {
+          nameCtrl.text = listResult[0].organizationNameHire;
+        } else {
+          nameCtrl.text = listResult[0].organizationNameWork;
+        }
+
+        //      listResult[0].organizationNameWork != null || listResult[0].organizationNameWork != "" ? nameCtrl.text = listResult[0].organizationNameWork : nameCtrl.text = listResult[0].orgnizationNameHire;
+        //nameCtrl.text = listResult[0].firstName;
+        mnoCtrl.text = listResult[0].mobileNumber;
+        emailCtrl.text = listResult[0].email;
+        addressCtrl.text = listResult[0].address;
+        panCtrl.text = listResult[0].panNo;
+        gstCtrl.text = listResult[0].gstNo; //experience
+        experienceCtrl.text = listResult[0].experience;
+        //gstCtrl.text=listResult[0].e;
       });
-      print("RESPONSE l${listResult[0].gstNo}");
-      String name = listResult[0].firstName;
-      nameCtrl.text = listResult[0].organizationNameWork != null || listResult[0].organizationNameWork != "" ? listResult[0].organizationNameWork : listResult[0].orgnizationNameHire;
-      //nameCtrl.text = listResult[0].firstName;
-      mnoCtrl.text = listResult[0].mobileNumber;
-      emailCtrl.text = listResult[0].email;
-      addressCtrl.text = listResult[0].address;
-      panCtrl.text = listResult[0].panNo;
-      gstCtrl.text = listResult[0].gstNo; //experience
-      experienceCtrl.text = listResult[0].experience;
-      //gstCtrl.text=listResult[0].e;
     });
   }
 

@@ -68,7 +68,7 @@ class Result {
   String nonSkilledLabour;
   String technicalStaff;
   String turnover;
-  Null rating;
+  String rating;
   String experience;
 
   Result({this.id, this.firstName, this.lastName, this.mobileNumber, this.email, this.category, this.skilledLabour, this.nonSkilledLabour, this.technicalStaff, this.turnover, this.rating, this.experience});

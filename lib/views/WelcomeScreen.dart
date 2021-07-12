@@ -162,7 +162,7 @@ class WelcomeScreenState extends State<WelcomeScreen> {
           ),
           GestureDetector(
             onTap: () => Get.to(AccountSelection())
-            /*Get.to(BottomNavigationScreen())*/,
+            /*Get.to(MoreAboutWorker('work'))*/,
             child: Container(
               height: snapshot.data != AppStrings.sdpi ? 55 : 50,
               width: MediaQuery.of(context).size.width / 2,

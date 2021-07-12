@@ -125,7 +125,7 @@ class ProfileCompletionState extends State<ProfileCompletion> {
           body: SingleChildScrollView(
             child: Container(
               height: dimens <= 750
-                  ? Get.size.height + 260
+                  ? Get.size.height + 270
                   : selectedSubCategory != null
                       ? Get.size.height + 130
                       : Get.size.height,
