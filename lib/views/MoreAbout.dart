@@ -13,16 +13,17 @@ import 'package:one_roof/views/ThankYouScreen.dart';
 
 class MoreAbout extends StatefulWidget {
   final String accountType;
+  bool switchedRole;
+  MoreAbout(this.accountType, {this.switchedRole});
 
-  MoreAbout(this.accountType);
-
-  MoreAboutState createState() => MoreAboutState(accountType);
+  MoreAboutState createState() => MoreAboutState(accountType, switchedRole);
 }
 
 class MoreAboutState extends State<MoreAbout> {
   final String accountType;
+  bool switchedRole;
 
-  MoreAboutState(this.accountType);
+  MoreAboutState(this.accountType, this.switchedRole);
 
   final List<String> _cityDropdownValues = [
     "Pune",
@@ -385,23 +386,22 @@ class MoreAboutState extends State<MoreAbout> {
     Box<String> appDb;
     appDb = Hive.box(ApiKeys.appDb);
     String userId = appDb.get(ApiKeys.userId);
-    var map = {"id": userId,
-      "location": selectedLoc,
-      "hiring_type": selectedBuilders,
-      "director": directorNameCtrl.value.text,
-      'hire_designation': selectedDesignation,
-      "organization_name_hire": orgNameCtrl.value.text, "types": 'hire'};
+    var map = {"id": userId, "location": selectedLoc, "hiring_type": selectedBuilders, "director": directorNameCtrl.value.text, 'hire_designation': selectedDesignation, "organization_name_hire": orgNameCtrl.value.text, "types": 'hire', 'swithched_role': switchedRole == true ? '1' : 0};
     print("orgNameCtrl ${map.toString()}");
 
     ApiHandler.putApi(ApiProvider.baseUrl, EndApi.hireDetailsUpdate, map).then((value) {
       Map<String, dynamic> mapData;
       setState(() {
         mapData = value;
+
         print("categoryse ${mapData['category_name']}");
         Box<String> appDb;
         appDb = Hive.box(ApiKeys.appDb);
         appDb.put(ApiKeys.assignedCatList, mapData['category_name']);
+        appDb.put(ApiKeys.type, accountType);
       });
+      print("REQUEST ${map.toString()}");
+
       print("RESPONSE ${mapData.toString()}");
       if (mapData['result'] == true) {
         ToastMessages.showToast(message: 'Updated successfully', type: true);

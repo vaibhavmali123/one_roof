@@ -29,10 +29,11 @@ class Result {
   String fcmToken;
   String hireDesignation;
   String verification;
+  String swithchedRole;
   String profileIncomplete;
   String categoryName;
 
-  Result({this.userId, this.firstName, this.lastName, this.mobileNumber, this.email, this.types, this.fcmToken, this.hireDesignation, this.verification, this.profileIncomplete, this.categoryName});
+  Result({this.userId, this.firstName, this.lastName, this.mobileNumber, this.email, this.types, this.fcmToken, this.hireDesignation, this.verification, this.swithchedRole, this.profileIncomplete, this.categoryName});
 
   Result.fromJson(Map<String, dynamic> json) {
     userId = json['user_id'];
@@ -44,6 +45,7 @@ class Result {
     fcmToken = json['fcm_token'];
     hireDesignation = json['hire_designation'];
     verification = json['verification'];
+    swithchedRole = json['swithched_role'];
     profileIncomplete = json['profile incomplete'];
     categoryName = json['category_name'];
   }
@@ -59,6 +61,7 @@ class Result {
     data['fcm_token'] = this.fcmToken;
     data['hire_designation'] = this.hireDesignation;
     data['verification'] = this.verification;
+    data['swithched_role'] = this.swithchedRole;
     data['profile incomplete'] = this.profileIncomplete;
     data['category_name'] = this.categoryName;
     return data;

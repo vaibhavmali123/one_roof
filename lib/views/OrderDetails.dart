@@ -121,7 +121,7 @@ class OrderDetailsState extends State<OrderDetails> {
                                                 width: 90,
                                                 child: Center(
                                                   child: Text(
-                                                    list[0]['name'],
+                                                    list[0]['assigned_hire_user_name'],
                                                     style: TextStyle(fontSize: 13, fontWeight: FontWeight.w400, color: color.colorConvert('#6B6977')),
                                                   ),
                                                 ),
@@ -145,11 +145,12 @@ class OrderDetailsState extends State<OrderDetails> {
                                 onTap: () {
                                   print("NAME ${list[0]['name']}");
                                   Get.to(WorkerDetails(
-                                    workerId: userType == Constants.hire ? list[0]['id'] : hireUserId,
+                                    workerId: list[0]['assign_id'],
                                     srNo: list[0]['sr_no'],
                                     name: list[0]['name'],
                                     email: list[0]['email'],
                                     mno: list[0]['mobile_number'],
+                                    id: list[0]['id'],
                                   ));
                                 },
                               ),
@@ -261,6 +262,7 @@ class OrderDetailsState extends State<OrderDetails> {
                   Get.to(WorkerDetails(
                     workerId: list[index]['assign_to_user_id'],
                     srNo: srNo,
+                    id: list[index]['id'],
                   ));
                 },
               );
@@ -409,9 +411,8 @@ class OrderDetailsState extends State<OrderDetails> {
                     height: 50,
                     width: 160,
                     child: list != null
-                        ?
-                    Container()
-                    /*RaisedButton(
+                        ? Container()
+                        /*RaisedButton(
                             onPressed: () {},
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(12.0),

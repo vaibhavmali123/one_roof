@@ -26,6 +26,8 @@ import 'package:one_roof/utils/Constants.dart';
 import 'package:one_roof/utils/ToastMessages.dart';
 import 'package:one_roof/utils/color.dart';
 import 'package:one_roof/views/OrderPage.dart';
+import 'package:path/path.dart' as path;
+import 'package:path_provider/path_provider.dart';
 
 class PostRequirement extends StatefulWidget {
   String selectedValue;
@@ -72,7 +74,9 @@ class PostRequirementState extends State<PostRequirement> {
   List<String> listUnitSelected = [];
   List<UnitsList> unitsList = [];
   double dimens;
+  List<String> extensions;
   String selectedCityId, selectedLoc;
+
   @override
   void initState() {
     _firebaseMessaging = FirebaseMessaging();
@@ -515,8 +519,24 @@ class PostRequirementState extends State<PostRequirement> {
   }
 
   void getDocFromLib() async {
-    FilePickerResult result = await FilePicker.platform.pickFiles(
-      type: FileType.custom,
+    String filepath = await FilePicker.getFilePath(type: FileType.any, allowedExtensions: extensions);
+    String dir = (await getApplicationDocumentsDirectory()).path;
+
+    String imgName = 'oneRoof';
+    String extension = File(filepath).path.split('.').last;
+    print("NAME extension ${extension}");
+
+    String newPath = path.join(dir, imgName + '.' + extension);
+    File f = await File(filepath);
+    File ff = await File(f.path).copy(newPath);
+    print("NAME ${ff}");
+    String fileName = ff.path.split('/').last;
+    print("NAME fileName ${fileName}");
+
+    uploader(fileName: fileName, directory: dir);
+
+    /*FilePickerResult result = await FilePicker.platform.pickFiles(
+      type: FileType.any,
       allowedExtensions: ['jpg', 'pdf', 'docx'],
     );
     print("result ${result.paths[0]}");
@@ -532,7 +552,7 @@ class PostRequirementState extends State<PostRequirement> {
       showLoader = true;
       // uploadImage(ApiProvider.baseUrlUpload,image);
       uploader(fileName: fileName, directory: dir);
-    });
+    });*/
   }
 
   Future getImageFromCamera() async {
@@ -554,7 +574,6 @@ class PostRequirementState extends State<PostRequirement> {
         });
       }
     });
-
   }
 
   Future<Map<String, dynamic>> uploader({fileName, directory}) async {

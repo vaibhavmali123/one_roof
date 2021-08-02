@@ -6,6 +6,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
@@ -20,20 +21,15 @@ FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  /*await FlutterDownloader.initialize(
-      debug: false // optional: set false to disable printing logs to console
-  );*/
+  await FlutterDownloader.initialize(debug: false // optional: set false to disable printing logs to console
+      );
 
   Directory document = await getApplicationDocumentsDirectory();
   Hive.init(document.path);
   await Hive.openBox<String>(ApiKeys.appDb);
   await Hive.openBox<String>(Constants.countList);
 
-  runApp(
-      /*DevicePreview(
-    builder: (context) => DeviceView(),
-  )*/
-      MyApp());
+  runApp(MyApp());
 }
 
 Future<dynamic> myBackgroundHandler(Map<String, dynamic> message) async {

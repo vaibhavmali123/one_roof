@@ -239,8 +239,8 @@ class PaymentScreenState extends State<PaymentScreen> {
                   String fileName = 'invoice' + format.format(date).toString();
                   String fullPath = "$path/$fileName.pdf";
                   print("INVOICE ${list[index].invoice}");
-                  downloadFile(dio, list[index].invoice, fullPath);
-                  //downloadFile(); // click on notification to open downloaded file (for Android)
+                  //downloadFile(dio, list[index].invoice, fullPath);
+                  downloadFile(dio, list[index].invoice, fullPath); // click on notification to open downloaded file (for Android)
                 },
               )
             ],
@@ -250,49 +250,42 @@ class PaymentScreenState extends State<PaymentScreen> {
     ));
   }
 
-/*
-  void downloadFile()async {
-
-
-
-    try{
-      var response=await dio.post(pdfUrl,
-        onReceiveProgress:showDownloadProgress,
-        options:Options(
-            responseType:ResponseType.bytes,
-            followRedirects:false,
-            validateStatus:(status){
-              return status<500;
+  void downloadFile(Dio dio, String pdfUri, String savePath) async {
+    print("pdfUri ${pdfUri}");
+    try {
+      var response = await dio.post(
+        pdfUri,
+        onReceiveProgress: showDownloadProgress,
+        options: Options(
+            responseType: ResponseType.bytes,
+            followRedirects: false,
+            validateStatus: (status) {
+              return status < 500;
             }),
       );
-      File file=File(savePath);
-      var ref=file.openSync(mode:FileMode.write);
+      File file = File(savePath);
+      var ref = file.openSync(mode: FileMode.write);
       ref.writeFromSync(response.data);
       await ref.close();
-    }
-    catch(e){
+    } catch (e) {
       print("ERROR IS:");
 
       print(e);
     }
 
-    */
 /*
     Directory document = await getApplicationDocumentsDirectory();
     String dir = (await getApplicationDocumentsDirectory()).path;
 
     print("document ${document}");
     final taskId = await FlutterDownloader.enqueue(
-      url:'https://oneroofcm.com/admin/uploads/03.png',
-      savedDir:dir,
+      url: 'https://oneroofcm.com/admin/uploads/110.png',
+      savedDir: dir,
       showNotification: true, // show download progress in status bar (for Android)
       openFileFromNotification: true, // click on notification to open downloaded file (for Android)
     );
-*/ /*
-
-
-  }
 */
+  }
 
   void getPermission() async {
     await Permission.storage.request();
@@ -303,6 +296,7 @@ class PaymentScreenState extends State<PaymentScreen> {
     print("Progress ${total.toString()} ${count.toString()}");
   }
 
+/*
   void downloadFile(dio, String pdfUrl, String fullPath) async {
     try {
       var response = await dio.post(
@@ -325,6 +319,7 @@ class PaymentScreenState extends State<PaymentScreen> {
       print(e);
     }
   }
+*/
 
   void openCheckout() {
     Box<String> appDb;
@@ -357,13 +352,15 @@ class PaymentScreenState extends State<PaymentScreen> {
     appDb = Hive.box(ApiKeys.appDb);
     String userId = appDb.get(ApiKeys.userId);
 
-    var map = {'user_id': userId, 'payment_id': "PID123", 'payment_status': '1', 'sr_no': json.encode(srNoList)};
+    var map = {'user_id': userId, 'payment_id': paymentId.toString(), 'payment_status': '1', 'sr_no': json.encode(srNoList)};
     print("REQUEST ${map.toString()}");
     ApiHandler.putApi(ApiProvider.baseUrl, EndApi.paymentUpdate, map).then((value) {
       print("PAYMENT RES ${value.toString()}");
       if (value['status_code'] == '200') {
         ToastMessages.showToast(message: value['message'], type: true);
+        getUserPayment();
       } else {
+        getUserPayment();
         ToastMessages.showToast(message: value['message'], type: false);
       }
     });

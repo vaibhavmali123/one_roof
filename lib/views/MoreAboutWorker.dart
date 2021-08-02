@@ -22,13 +22,16 @@ import 'package:one_roof/utils/ToastMessages.dart';
 import 'package:one_roof/utils/color.dart';
 import 'package:one_roof/views/ProfileCompletion.dart';
 import 'package:one_roof/views/ThankYouScreen.dart';
+import 'package:path/path.dart' as path;
+import 'package:path_provider/path_provider.dart';
 
 class MoreAboutWorker extends StatefulWidget {
   String accountType;
+  bool switchedRole = false;
 
-  MoreAboutWorker(this.accountType);
+  MoreAboutWorker(this.accountType, {this.switchedRole});
 
-  MoreAboutWorkerState createState() => MoreAboutWorkerState(accountType);
+  MoreAboutWorkerState createState() => MoreAboutWorkerState(accountType, switchedRole);
 }
 
 class MoreAboutWorkerState extends State<MoreAboutWorker> {
@@ -38,8 +41,9 @@ class MoreAboutWorkerState extends State<MoreAboutWorker> {
     "Delhi",
   ];
   String accountType;
+  bool switchedRole = false;
 
-  MoreAboutWorkerState(this.accountType);
+  MoreAboutWorkerState(this.accountType, this.switchedRole);
 
   final List<String> _designationDropdownValues = [];
   List<CategoryList> _categoryDropdownValues = [];
@@ -71,6 +75,7 @@ class MoreAboutWorkerState extends State<MoreAboutWorker> {
   String uploadedFileUrl;
   bool showLoader;
   String fileStr, fileName;
+  List<String> extensions;
 
   @override
   void initState() {
@@ -1077,6 +1082,23 @@ class MoreAboutWorkerState extends State<MoreAboutWorker> {
   }
 
   void getDocFromLib() async {
+    String filepath = await FilePicker.getFilePath(type: FileType.any, allowedExtensions: extensions);
+    String dir = (await getApplicationDocumentsDirectory()).path;
+
+    String imgName = 'oneRoof';
+    String extension = File(filepath).path.split('.').last;
+    print("NAME extension ${extension}");
+
+    String newPath = path.join(dir, imgName + '.' + extension);
+    File f = await File(filepath);
+    File ff = await File(f.path).copy(newPath);
+    print("NAME ${ff}");
+    String fileName = ff.path.split('/').last;
+    print("NAME fileName ${fileName}");
+
+    uploader(fileName: fileName, directory: dir);
+
+    /*
     FilePickerResult result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
       allowedExtensions: ['jpg', 'pdf', 'docx'],
@@ -1094,6 +1116,7 @@ class MoreAboutWorkerState extends State<MoreAboutWorker> {
 
       uploader(fileName: fileName, directory: dir);
     });
+*/
   }
 
   void submitDetails() {
@@ -1119,7 +1142,8 @@ class MoreAboutWorkerState extends State<MoreAboutWorker> {
         "specialization": strSpecialisation,
         "exp": experienceCtrl.text.toString(),
         "ctc": ctcCtrl.text.toString(),
-        "resume_file": uploadedFileUrl
+        "resume_file": uploadedFileUrl,
+        'swithched_role': switchedRole == true ? '1' : 0
       };
       print("LLLLLLLLLLLLL ${map.toString()}");
       ApiHandler.putApi(ApiProvider.baseUrl, EndApi.workDetailsUpdate, map).then((value) {
@@ -1127,6 +1151,8 @@ class MoreAboutWorkerState extends State<MoreAboutWorker> {
         setState(() {
           mapData = value;
         });
+        appDb.put(ApiKeys.type, accountType);
+        print("TYPE ${accountType}");
         if (mapData['result'] == true || mapData['id'] != null) {
           ToastMessages.showToast(message: 'Updated successfully', type: true);
 

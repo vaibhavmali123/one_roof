@@ -103,303 +103,303 @@ class EditProfileState extends State<EditProfile> {
         children: [
           showLoader == false
               ? Container(
-                  height: Get.size.height,
+                  // height: Get.size.height,
                   color: Colors.white,
                   child: SingleChildScrollView(
-                    child: Container(
-                        height: dimens <= 725 ? Get.size.height + 90 : Get.size.height / 0.9,
-                        color: Colors.white,
+                    child: IntrinsicHeight(
+                        //height: dimens <= 725 ? Get.size.height + 90 : Get.size.height / 0.9,
+                        //color: Colors.white,
                         child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    GestureDetector(
-                                        onTap: () {
-                                          _showPicker(context);
-                                        },
-                                        child: Stack(
-                                          children: [
-                                            CircleAvatar(
-                                                radius: croppedImage == null ? 60 : 50,
-                                                backgroundColor: Colors.white,
-                                                child: ClipRRect(
-                                                  borderRadius: BorderRadius.circular(80.0),
-                                                  child: profileUrl == null
-                                                      ? croppedImage == null
-                                                          ? Image.asset(
-                                                              'assets/images/profile pic.png',
-                                                            )
-                                                          : Image.file(
-                                                              croppedImage,
-                                                              fit: BoxFit.fill,
-                                                            )
-                                                      : Image.network(
-                                                          profileUrl,
-                                                          width: 90,
-                                                          height: 90,
-                                                        ),
-                                                )),
-                                            Positioned(
-                                                top: 70,
-                                                left: 70,
-                                                child: Container(
-                                                  height: 32,
-                                                  width: 32,
-                                                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(30.0), color: color.colorConvert('##EBF2FA').withOpacity(1)),
-                                                  child: Center(
-                                                    child: Image.asset(
-                                                      'assets/images/Icon material-edit.png',
-                                                      scale: 1,
+                                GestureDetector(
+                                    onTap: () {
+                                      _showPicker(context);
+                                    },
+                                    child: Stack(
+                                      children: [
+                                        CircleAvatar(
+                                            radius: croppedImage == null ? 60 : 50,
+                                            backgroundColor: Colors.white,
+                                            child: ClipRRect(
+                                              borderRadius: BorderRadius.circular(80.0),
+                                              child: profileUrl == null
+                                                  ? croppedImage == null
+                                                      ? Image.asset(
+                                                          'assets/images/profile pic.png',
+                                                        )
+                                                      : Image.file(
+                                                          croppedImage,
+                                                          fit: BoxFit.fill,
+                                                        )
+                                                  : Image.network(
+                                                      profileUrl,
+                                                      width: 90,
+                                                      height: 90,
                                                     ),
-                                                  ),
-                                                ))
-                                          ],
-                                        )),
-                                  ],
-                                ),
+                                            )),
+                                        Positioned(
+                                            top: 70,
+                                            left: 70,
+                                            child: Container(
+                                              height: 32,
+                                              width: 32,
+                                              decoration: BoxDecoration(borderRadius: BorderRadius.circular(30.0), color: color.colorConvert('##EBF2FA').withOpacity(1)),
+                                              child: Center(
+                                                child: Image.asset(
+                                                  'assets/images/Icon material-edit.png',
+                                                  scale: 1,
+                                                ),
+                                              ),
+                                            ))
+                                      ],
+                                    )),
                               ],
                             ),
-                            Container(
-                              //height:Get.size.height,
-                              width: Get.size.width / 1.1,
-                              child: Column(
+                          ],
+                        ),
+                        Container(
+                          //height:Get.size.height,
+                          width: Get.size.width / 1.1,
+                          child: Column(
+                            children: [
+                              Container(
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Text('Organization Name'),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(
+                                height: 55,
+                                child: TextFormField(
+                                  autofocus: false,
+                                  controller: nameCtrl,
+                                  cursorHeight: 24,
+                                  decoration: InputDecoration(
+                                      // errorText:isFnameValid==false,
+                                      floatingLabelBehavior: FloatingLabelBehavior.always,
+                                      labelStyle: TextStyle(fontSize: 18, color: Colors.black54, fontWeight: FontWeight.w600),
+                                      isDense: false,
+                                      contentPadding: EdgeInsets.only(bottom: 6, top: 4, left: 30),
+                                      prefixIconConstraints: BoxConstraints(maxHeight: 30, minWidth: 30, maxWidth: 40),
+                                      prefixIcon: Image.asset('assets/images/Icon feather-user.png'),
+                                      focusedBorder: new UnderlineInputBorder(borderSide: new BorderSide(color: Colors.black))),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 18,
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
-                                  Container(
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      children: [
-                                        Text('Organization Name'),
-                                      ],
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 55,
-                                    child: TextFormField(
-                                      autofocus: false,
-                                      controller: nameCtrl,
-                                      cursorHeight: 24,
-                                      decoration: InputDecoration(
-                                          // errorText:isFnameValid==false,
-                                          floatingLabelBehavior: FloatingLabelBehavior.always,
-                                          labelStyle: TextStyle(fontSize: 18, color: Colors.black54, fontWeight: FontWeight.w600),
-                                          isDense: false,
-                                          contentPadding: EdgeInsets.only(bottom: 6, top: 4, left: 30),
-                                          prefixIconConstraints: BoxConstraints(maxHeight: 30, minWidth: 30, maxWidth: 40),
-                                          prefixIcon: Image.asset('assets/images/Icon feather-user.png'),
-                                          focusedBorder: new UnderlineInputBorder(borderSide: new BorderSide(color: Colors.black))),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 18,
-                                  ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Text('Mobile Number'),
-                                    ],
-                                  ),
-                                  TextFormField(
-                                    autofocus: false,
-                                    maxLength: 10,
-                                    enabled: false,
-                                    inputFormatters: <TextInputFormatter>[
-                                      FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
-                                    ],
-                                    keyboardType: TextInputType.number,
-                                    controller: mnoCtrl,
-                                    cursorHeight: 24,
-
-                                    // onChanged:block.emailChanged,
-                                    decoration: InputDecoration(
-                                        helperStyle: TextStyle(fontSize: 0),
-                                        floatingLabelBehavior: FloatingLabelBehavior.always,
-                                        labelStyle: TextStyle(fontSize: 18, color: Colors.black54, fontWeight: FontWeight.w600),
-                                        isDense: false,
-                                        contentPadding: EdgeInsets.only(bottom: 6, top: 4, left: 30),
-                                        prefixIconConstraints: BoxConstraints(maxHeight: 30, minWidth: 30, maxWidth: 40),
-                                        prefixIcon: Image.asset('assets/images/Icon_feather_phone_call.png'),
-                                        focusedBorder: new UnderlineInputBorder(borderSide: new BorderSide(color: Colors.black))),
-                                  ),
-                                  SizedBox(
-                                    height: 18,
-                                  ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Text('Email'),
-                                    ],
-                                  ),
-                                  TextFormField(
-                                    autofocus: false,
-                                    controller: emailCtrl,
-                                    keyboardType: TextInputType.emailAddress,
-                                    cursorHeight: 24,
-                                    // onChanged:block.emailChanged,
-                                    decoration: InputDecoration(
-                                        floatingLabelBehavior: FloatingLabelBehavior.always,
-                                        labelStyle: TextStyle(fontSize: 18, color: Colors.black54, fontWeight: FontWeight.w600),
-                                        isDense: false,
-                                        contentPadding: EdgeInsets.only(bottom: 6, top: 4, left: 30),
-                                        prefixIconConstraints: BoxConstraints(maxHeight: 30, minWidth: 30, maxWidth: 40),
-                                        prefixIcon: Icon(
-                                          Icons.email_outlined,
-                                          color: Colors.black54,
-                                          size: 24,
-                                        ),
-                                        focusedBorder: new UnderlineInputBorder(borderSide: new BorderSide(color: Colors.black))),
-                                  ),
-                                  SizedBox(
-                                    height: 18,
-                                  ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Text('Address'),
-                                    ],
-                                  ),
-                                  TextFormField(
-                                    autofocus: false,
-                                    controller: addressCtrl,
-                                    keyboardType: TextInputType.emailAddress,
-                                    cursorHeight: 24,
-                                    maxLines: 2,
-                                    // onChanged:block.emailChanged,
-                                    decoration: InputDecoration(
-                                        floatingLabelBehavior: FloatingLabelBehavior.always,
-                                        labelStyle: TextStyle(fontSize: 18, color: Colors.black54, fontWeight: FontWeight.w600),
-                                        isDense: false,
-                                        contentPadding: EdgeInsets.only(bottom: 0, top: 15, left: 30),
-                                        prefixIconConstraints: BoxConstraints(maxHeight: 30, minWidth: 30, maxWidth: 40),
-                                        prefixIcon: Icon(
-                                          Icons.add_location,
-                                          color: Colors.black54,
-                                          size: 24,
-                                        ),
-                                        focusedBorder: new UnderlineInputBorder(borderSide: new BorderSide(color: Colors.black))),
-                                  ),
-                                  SizedBox(
-                                    height: 18,
-                                  ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Text('Experience.'),
-                                    ],
-                                  ),
-                                  TextFormField(
-                                    autofocus: false,
-                                    controller: experienceCtrl,
-                                    keyboardType: TextInputType.emailAddress,
-                                    cursorHeight: 24,
-                                    decoration: InputDecoration(
-                                        floatingLabelBehavior: FloatingLabelBehavior.always,
-                                        labelStyle: TextStyle(fontSize: 18, color: Colors.black54, fontWeight: FontWeight.w600),
-                                        isDense: false,
-                                        contentPadding: EdgeInsets.only(bottom: 6, top: 4, left: 30),
-                                        prefixIconConstraints: BoxConstraints(maxHeight: 30, minWidth: 30, maxWidth: 40),
-                                        prefixIcon: Icon(
-                                          Icons.offline_pin,
-                                          color: Colors.black54,
-                                          size: 24,
-                                        ),
-                                        focusedBorder: new UnderlineInputBorder(borderSide: new BorderSide(color: Colors.black))),
-                                  ),
-                                  SizedBox(
-                                    height: 18,
-                                  ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Text('Pan No.'),
-                                    ],
-                                  ),
-                                  TextFormField(
-                                    autofocus: false,
-                                    controller: panCtrl,
-                                    keyboardType: TextInputType.emailAddress,
-                                    cursorHeight: 24,
-                                    // onChanged:block.emailChanged,
-                                    decoration: InputDecoration(
-                                        floatingLabelBehavior: FloatingLabelBehavior.always,
-                                        labelStyle: TextStyle(fontSize: 18, color: Colors.black54, fontWeight: FontWeight.w600),
-                                        isDense: false,
-                                        contentPadding: EdgeInsets.only(bottom: 6, top: 4, left: 30),
-                                        prefixIconConstraints: BoxConstraints(maxHeight: 30, minWidth: 30, maxWidth: 40),
-                                        prefixIcon: Icon(
-                                          Icons.edit,
-                                          color: Colors.black54,
-                                          size: 24,
-                                        ),
-                                        focusedBorder: new UnderlineInputBorder(borderSide: new BorderSide(color: Colors.black))),
-                                  ),
-                                  SizedBox(
-                                    height: 18,
-                                  ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Text('GST No.'),
-                                    ],
-                                  ),
-                                  TextFormField(
-                                    autofocus: false,
-                                    controller: gstCtrl,
-                                    keyboardType: TextInputType.emailAddress,
-                                    cursorHeight: 24,
-                                    // onChanged:block.emailChanged,
-                                    decoration: InputDecoration(
-                                        floatingLabelBehavior: FloatingLabelBehavior.always,
-                                        labelStyle: TextStyle(fontSize: 18, color: Colors.black54, fontWeight: FontWeight.w600),
-                                        isDense: false,
-                                        contentPadding: EdgeInsets.only(bottom: 6, top: 4, left: 30),
-                                        prefixIconConstraints: BoxConstraints(maxHeight: 30, minWidth: 30, maxWidth: 40),
-                                        prefixIcon: Icon(
-                                          Icons.edit,
-                                          color: Colors.black54,
-                                          size: 24,
-                                        ),
-                                        focusedBorder: new UnderlineInputBorder(borderSide: new BorderSide(color: Colors.black))),
-                                  ),
-                                  SizedBox(
-                                    height: 20,
-                                  ),
-                                  SizedBox(
-                                    height: 18,
-                                  ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      SizedBox(
-                                        height: 48,
-                                        width: Get.size.width / 3,
-                                        child: RaisedButton(
-                                            child: Text(
-                                              'Save',
-                                              style: TextStyle(fontSize: 16, color: Colors.white),
-                                            ),
-                                            color: color.colorConvert(color.primaryColor),
-                                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
-                                            onPressed: () {
-                                              setState(() {
-                                                showLoader = true;
-                                              });
-                                              updateProfile();
-                                            }),
-                                      )
-                                    ],
-                                  )
+                                  Text('Mobile Number'),
                                 ],
                               ),
-                            ),
-                            SizedBox(
-                              height: 40,
-                            )
-                          ],
-                        )),
+                              TextFormField(
+                                autofocus: false,
+                                maxLength: 10,
+                                enabled: false,
+                                inputFormatters: <TextInputFormatter>[
+                                  FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                                ],
+                                keyboardType: TextInputType.number,
+                                controller: mnoCtrl,
+                                cursorHeight: 24,
+
+                                // onChanged:block.emailChanged,
+                                decoration: InputDecoration(
+                                    helperStyle: TextStyle(fontSize: 0),
+                                    floatingLabelBehavior: FloatingLabelBehavior.always,
+                                    labelStyle: TextStyle(fontSize: 18, color: Colors.black54, fontWeight: FontWeight.w600),
+                                    isDense: false,
+                                    contentPadding: EdgeInsets.only(bottom: 6, top: 4, left: 30),
+                                    prefixIconConstraints: BoxConstraints(maxHeight: 30, minWidth: 30, maxWidth: 40),
+                                    prefixIcon: Image.asset('assets/images/Icon_feather_phone_call.png'),
+                                    focusedBorder: new UnderlineInputBorder(borderSide: new BorderSide(color: Colors.black))),
+                              ),
+                              SizedBox(
+                                height: 18,
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Text('Email'),
+                                ],
+                              ),
+                              TextFormField(
+                                autofocus: false,
+                                controller: emailCtrl,
+                                keyboardType: TextInputType.emailAddress,
+                                cursorHeight: 24,
+                                // onChanged:block.emailChanged,
+                                decoration: InputDecoration(
+                                    floatingLabelBehavior: FloatingLabelBehavior.always,
+                                    labelStyle: TextStyle(fontSize: 18, color: Colors.black54, fontWeight: FontWeight.w600),
+                                    isDense: false,
+                                    contentPadding: EdgeInsets.only(bottom: 6, top: 4, left: 30),
+                                    prefixIconConstraints: BoxConstraints(maxHeight: 30, minWidth: 30, maxWidth: 40),
+                                    prefixIcon: Icon(
+                                      Icons.email_outlined,
+                                      color: Colors.black54,
+                                      size: 24,
+                                    ),
+                                    focusedBorder: new UnderlineInputBorder(borderSide: new BorderSide(color: Colors.black))),
+                              ),
+                              SizedBox(
+                                height: 18,
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Text('Address'),
+                                ],
+                              ),
+                              TextFormField(
+                                autofocus: false,
+                                controller: addressCtrl,
+                                keyboardType: TextInputType.emailAddress,
+                                cursorHeight: 24,
+                                maxLines: 2,
+                                // onChanged:block.emailChanged,
+                                decoration: InputDecoration(
+                                    floatingLabelBehavior: FloatingLabelBehavior.always,
+                                    labelStyle: TextStyle(fontSize: 18, color: Colors.black54, fontWeight: FontWeight.w600),
+                                    isDense: false,
+                                    contentPadding: EdgeInsets.only(bottom: 0, top: 15, left: 30),
+                                    prefixIconConstraints: BoxConstraints(maxHeight: 30, minWidth: 30, maxWidth: 40),
+                                    prefixIcon: Icon(
+                                      Icons.add_location,
+                                      color: Colors.black54,
+                                      size: 24,
+                                    ),
+                                    focusedBorder: new UnderlineInputBorder(borderSide: new BorderSide(color: Colors.black))),
+                              ),
+                              SizedBox(
+                                height: 18,
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Text('Experience.'),
+                                ],
+                              ),
+                              TextFormField(
+                                autofocus: false,
+                                controller: experienceCtrl,
+                                keyboardType: TextInputType.emailAddress,
+                                cursorHeight: 24,
+                                decoration: InputDecoration(
+                                    floatingLabelBehavior: FloatingLabelBehavior.always,
+                                    labelStyle: TextStyle(fontSize: 18, color: Colors.black54, fontWeight: FontWeight.w600),
+                                    isDense: false,
+                                    contentPadding: EdgeInsets.only(bottom: 6, top: 4, left: 30),
+                                    prefixIconConstraints: BoxConstraints(maxHeight: 30, minWidth: 30, maxWidth: 40),
+                                    prefixIcon: Icon(
+                                      Icons.offline_pin,
+                                      color: Colors.black54,
+                                      size: 24,
+                                    ),
+                                    focusedBorder: new UnderlineInputBorder(borderSide: new BorderSide(color: Colors.black))),
+                              ),
+                              SizedBox(
+                                height: 18,
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Text('Pan No.'),
+                                ],
+                              ),
+                              TextFormField(
+                                autofocus: false,
+                                controller: panCtrl,
+                                keyboardType: TextInputType.emailAddress,
+                                cursorHeight: 24,
+                                // onChanged:block.emailChanged,
+                                decoration: InputDecoration(
+                                    floatingLabelBehavior: FloatingLabelBehavior.always,
+                                    labelStyle: TextStyle(fontSize: 18, color: Colors.black54, fontWeight: FontWeight.w600),
+                                    isDense: false,
+                                    contentPadding: EdgeInsets.only(bottom: 6, top: 4, left: 30),
+                                    prefixIconConstraints: BoxConstraints(maxHeight: 30, minWidth: 30, maxWidth: 40),
+                                    prefixIcon: Icon(
+                                      Icons.edit,
+                                      color: Colors.black54,
+                                      size: 24,
+                                    ),
+                                    focusedBorder: new UnderlineInputBorder(borderSide: new BorderSide(color: Colors.black))),
+                              ),
+                              SizedBox(
+                                height: 18,
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Text('GST No.'),
+                                ],
+                              ),
+                              TextFormField(
+                                autofocus: false,
+                                controller: gstCtrl,
+                                keyboardType: TextInputType.emailAddress,
+                                cursorHeight: 24,
+                                // onChanged:block.emailChanged,
+                                decoration: InputDecoration(
+                                    floatingLabelBehavior: FloatingLabelBehavior.always,
+                                    labelStyle: TextStyle(fontSize: 18, color: Colors.black54, fontWeight: FontWeight.w600),
+                                    isDense: false,
+                                    contentPadding: EdgeInsets.only(bottom: 6, top: 4, left: 30),
+                                    prefixIconConstraints: BoxConstraints(maxHeight: 30, minWidth: 30, maxWidth: 40),
+                                    prefixIcon: Icon(
+                                      Icons.edit,
+                                      color: Colors.black54,
+                                      size: 24,
+                                    ),
+                                    focusedBorder: new UnderlineInputBorder(borderSide: new BorderSide(color: Colors.black))),
+                              ),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              SizedBox(
+                                height: 18,
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  SizedBox(
+                                    height: 48,
+                                    width: Get.size.width / 3,
+                                    child: RaisedButton(
+                                        child: Text(
+                                          'Save',
+                                          style: TextStyle(fontSize: 16, color: Colors.white),
+                                        ),
+                                        color: color.colorConvert(color.primaryColor),
+                                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
+                                        onPressed: () {
+                                          setState(() {
+                                            showLoader = true;
+                                          });
+                                          updateProfile();
+                                        }),
+                                  )
+                                ],
+                              )
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: 40,
+                        )
+                      ],
+                    )),
                   ),
                 )
               : displayLoader()

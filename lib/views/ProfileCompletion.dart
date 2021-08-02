@@ -19,6 +19,8 @@ import 'package:one_roof/utils/Constants.dart';
 import 'package:one_roof/utils/ToastMessages.dart';
 import 'package:one_roof/utils/color.dart';
 import 'package:one_roof/views/ThankYouScreen.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:path/path.dart' as path;
 
 class ProfileCompletion extends StatefulWidget {
   String categoryId, categoryName, accountType;
@@ -74,6 +76,7 @@ class ProfileCompletionState extends State<ProfileCompletion> {
   List<dynamic> listEqipment = [];
   Map<String, dynamic> equipmentsObj;
   List<dynamic> listOldData = [];
+  List<String> extensions;
 
   List<dynamic> listMachinery = [];
   Map<String, dynamic> mapMachinery = {};
@@ -123,12 +126,12 @@ class ProfileCompletionState extends State<ProfileCompletion> {
                 ],
               )),
           body: SingleChildScrollView(
-            child: Container(
-              height: dimens <= 750
+            child: IntrinsicHeight(
+              /*height: dimens <= 750
                   ? Get.size.height + 270
                   : selectedSubCategory != null
                       ? Get.size.height + 130
-                      : Get.size.height,
+                      : Get.size.height,*/
               child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
                 getHeaderColumn(),
                 SizedBox(
@@ -679,6 +682,7 @@ class ProfileCompletionState extends State<ProfileCompletion> {
                 }
               }),
         ),
+        SizedBox(height:10,)
       ],
     );
   }
@@ -1016,7 +1020,23 @@ class ProfileCompletionState extends State<ProfileCompletion> {
 */
 
   void getDocFromLib() async {
-    FilePickerResult result = await FilePicker.platform.pickFiles(
+    String filepath = await FilePicker.getFilePath(type: FileType.any, allowedExtensions: extensions);
+    String dir = (await getApplicationDocumentsDirectory()).path;
+
+    String imgName = 'oneRoof';
+    String extension = File(filepath).path.split('.').last;
+    print("NAME extension ${extension}");
+
+    String newPath = path.join(dir, imgName + '.' + extension);
+    File f = await File(filepath);
+    File ff = await File(f.path).copy(newPath);
+    print("NAME ${ff}");
+    String fileName = ff.path.split('/').last;
+    print("NAME fileName ${fileName}");
+
+    uploader(fileName: fileName, directory: dir);
+
+    /*FilePickerResult result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
       allowedExtensions: ['jpg', 'pdf', 'docx'],
     );
@@ -1032,7 +1052,7 @@ class ProfileCompletionState extends State<ProfileCompletion> {
       print("dir ${dir}");
 
       uploader(fileName: fileName, directory: dir);
-    });
+    });*/
   }
 
   void initCountData(int index) {

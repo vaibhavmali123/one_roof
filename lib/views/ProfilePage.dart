@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_restart/flutter_restart.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hive/hive.dart';
@@ -10,14 +11,18 @@ import 'package:one_roof/networking/ApiKeys.dart';
 import 'package:one_roof/networking/ApiProvider.dart';
 import 'package:one_roof/networking/EndApi.dart';
 import 'package:one_roof/utils/AppStrings.dart';
+import 'package:one_roof/utils/Constants.dart';
 import 'package:one_roof/utils/ToastMessages.dart';
 import 'package:one_roof/utils/color.dart';
 import 'package:one_roof/views/EditProfile.dart';
 import 'package:one_roof/views/FaqScreen.dart';
 import 'package:one_roof/views/LoginScreen.dart';
+import 'package:one_roof/views/MoreAbout.dart';
+import 'package:one_roof/views/MoreAboutWorker.dart';
 import 'package:one_roof/views/OrderPage.dart';
 import 'package:one_roof/views/PaymentScreen.dart';
 import 'package:one_roof/views/PostAnAdvertise.dart';
+import 'package:one_roof/views/TestScreen.dart';
 import 'package:share/share.dart';
 import 'package:store_redirect/store_redirect.dart';
 
@@ -114,9 +119,25 @@ class ProfilePageState extends State<ProfilePage> {
                         children: [
                           Expanded(
                               flex: 2,
-                              child: Image.asset(
-                                'assets/images/profile pic.png',
-                                scale: 1,
+                              child: Column(
+                                children: [
+                                  Image.asset(
+                                    'assets/images/profile pic.png',
+                                    scale: 1,
+                                  ),
+                                  SizedBox(
+                                    height: 4,
+                                  ),
+                                  GestureDetector(
+                                    onTap: () {
+                                      roleChangeDialog();
+                                    },
+                                    child: Text(
+                                      'Switch Role',
+                                      style: TextStyle(fontSize: 12, fontWeight: FontWeight.w800, color: color.colorConvert(color.primaryColor)),
+                                    ),
+                                  )
+                                ],
                               )),
                           Expanded(
                               flex: 4,
@@ -189,8 +210,7 @@ class ProfilePageState extends State<ProfilePage> {
               )
             ],
           ),
-          Container(
-            height: dimens <= 725 ? 330 : dimens / 2,
+          Expanded(
             child: ListView.builder(
                 itemCount: listTitles.length,
                 itemBuilder: (context, index) {
@@ -202,109 +222,7 @@ class ProfilePageState extends State<ProfilePage> {
                     title: Text(listTitles[index], style: GoogleFonts.openSans(textStyle: TextStyle(fontSize: 15, color: color.colorConvert('#343048').withOpacity(0.8), fontWeight: FontWeight.w600, letterSpacing: 0.0))),
                     trailing: Image.asset('assets/images/next.png'),
                   );
-                })
-            /*Container(
-                height:327,
-                margin:EdgeInsets.only(left:12,right:12,top:12),
-                child:Column(
-                  children: [
-                    ListTile(
-                      leading:Image.asset('assets/images/Icon-ad.png'),
-                      title:Text(AppStrings.postAdvertisement,
-                          style: GoogleFonts.openSans(
-                              textStyle: TextStyle(
-                                  fontSize:15,
-                                  color:color.colorConvert('#343048').withOpacity(0.8),
-                                  fontWeight: FontWeight.w600,
-                                  letterSpacing: 0.0))),
-                      trailing:Image.asset('assets/images/next.png'),
-                    ),
-                    SizedBox(height:0,),
-                    ListTile(
-                      onTap:(){
-                        Get.to(OrderPage());
-                      },
-                      leading:Image.asset('assets/images/Icon-my orders.png'),
-                      title:Text(AppStrings.myOrders,
-                          style: GoogleFonts.openSans(
-                              textStyle: TextStyle(
-                                  fontSize:15,
-                                  color:color.colorConvert('#343048').withOpacity(0.8),
-                                  fontWeight: FontWeight.w600,
-                                  letterSpacing: 0.0))),
-                      trailing:Image.asset('assets/images/next.png'),
-                    ),
-                    SizedBox(height:0,),
-
-                    ListTile(
-                      leading:Image.asset('assets/images/Icon-payment.png'),
-                      title:Text(AppStrings.payment,
-                          style: GoogleFonts.openSans(
-                              textStyle: TextStyle(
-                                  fontSize:15,
-                                  color:color.colorConvert('#343048').withOpacity(0.8),
-                                  fontWeight: FontWeight.w600,
-                                  letterSpacing: 0.0))),
-                      trailing:Image.asset('assets/images/next.png'),
-                    ),
-                    ListTile(
-                      leading:Image.asset('assets/images/Icon-feedback.png'),
-                      title:Text(AppStrings.giveFeedback,
-                          style: GoogleFonts.openSans(
-                              textStyle: TextStyle(
-                                  fontSize:15,
-                                  color:color.colorConvert('#343048').withOpacity(0.8),
-                                  fontWeight: FontWeight.w600,
-                                  letterSpacing: 0.0))),
-                      trailing:Image.asset('assets/images/next.png'),
-                    ),
-                    SizedBox(height:0,),
-
-                    ListTile(
-                      leading:Image.asset('assets/images/Icon ionic-md-help-circle.png'),
-                      title:Text(AppStrings.faqs,
-                          style: GoogleFonts.openSans(
-                              textStyle: TextStyle(
-                                  fontSize:15,
-                                  color:color.colorConvert('#343048').withOpacity(0.8),
-                                  fontWeight: FontWeight.w600,
-                                  letterSpacing: 0.0))),
-                      trailing:Image.asset('assets/images/next.png'),
-                    ),
-                    SizedBox(height:0,),
-
-                    ListTile(
-                      leading:Image.asset('assets/images/Icon awesome-star.png'),
-                      title:Text(AppStrings.rate,
-                          style: GoogleFonts.openSans(
-                              textStyle: TextStyle(
-                                  fontSize:14,
-                                  color:color.colorConvert('#343048').withOpacity(0.8),
-                                  fontWeight: FontWeight.w600,
-                                  letterSpacing: 0.0))),
-                      trailing:Image.asset('assets/images/next.png'),
-                    ),
-                    SizedBox(height:0,),
-
-                    ListTile(
-                      onTap:(){
-                        logout();
-                      },
-                      leading:Image.asset('assets/images/Icon open-account-logout.png'),
-                      title:Text(AppStrings.logOut,
-                          style: GoogleFonts.openSans(
-                              textStyle: TextStyle(
-                                  fontSize:14,
-                                  color:color.colorConvert('#343048').withOpacity(0.8),
-                                  fontWeight: FontWeight.w600,
-                                  letterSpacing: 0.0))),
-                      trailing:Image.asset('assets/images/next.png'),
-                    ),
-
-                  ],
-                ),
-              )*/
-            ,
+                }),
           )
         ],
       )),
@@ -331,7 +249,7 @@ class ProfilePageState extends State<ProfilePage> {
     print("DATA ${email}");
   }
 
-  void navigate(int index) {
+  void navigate(int index) async {
     switch (index) {
       case 0:
         Get.to(PostAnAdvertise());
@@ -343,6 +261,7 @@ class ProfilePageState extends State<ProfilePage> {
         Get.to(PaymentScreen());
         break;
       case 3:
+       // Get.to(TestScreen());
         displayFeedbackDialog();
         break;
       case 6:
@@ -489,5 +408,69 @@ class ProfilePageState extends State<ProfilePage> {
       textEditingControllerFeedback.clear();
       ToastMessages.showToast(message: 'Feedback updated successfuly');
     });
+  }
+
+  void roleChangeDialog() {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return CupertinoAlertDialog(
+            title: Text("Switch role"),
+            content: Text("Do you want to switch role"),
+            actions: [
+              CupertinoDialogAction(
+                child: Text(
+                  'Yes',
+                  style: TextStyle(color: color.colorConvert(color.primaryColor)),
+                ),
+                onPressed: () {
+                  Box<String> appDb;
+                  appDb = Hive.box(ApiKeys.appDb);
+
+                  String role = appDb.get(ApiKeys.type);
+//                  print("ROLE ${role}");
+                  print("ROLE switchedRole ${appDb.get(ApiKeys.switchedRole)}");
+
+                  if (role == Constants.work) {
+                    if (appDb.get(ApiKeys.switchedRole) != '1') {
+                      Get.to(MoreAbout(
+                        Constants.hire,
+                        switchedRole: true,
+                      ));
+                    } else {
+                      appDb.put(ApiKeys.type, 'hire');
+                      _restartApp();
+                      //Get.to(BottomNavigationScreen());
+                      Get.back();
+                      ToastMessages.showToast(message: 'Your role switched to hire', type: true);
+                    }
+                  } else {
+                    if (appDb.get(ApiKeys.switchedRole) != '1') {
+                      Get.to(MoreAboutWorker(Constants.work, switchedRole: true));
+                    } else {
+                      appDb.put(ApiKeys.type, 'work');
+                      _restartApp();
+                      //Get.to(BottomNavigationScreen());
+                      Get.back();
+                      ToastMessages.showToast(message: 'Your role switched to work', type: true);
+                    }
+                  }
+                  setState(() {});
+                },
+              ),
+              CupertinoDialogAction(
+                child: Text('No', style: TextStyle(color: color.colorConvert(color.primaryColor))),
+                onPressed: () {
+                  setState(() {});
+                  Navigator.pop(context);
+                },
+              )
+            ],
+          );
+        });
+  }
+
+  void _restartApp() async {
+    FlutterRestart.restartApp();
   }
 }

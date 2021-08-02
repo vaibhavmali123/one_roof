@@ -13,21 +13,21 @@ import 'package:one_roof/utils/color.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class WorkerDetails extends StatefulWidget {
-  String workerId, srNo, name, email, mno;
+  String workerId, srNo, name, email, mno, id;
 
-  WorkerDetails({this.workerId, this.srNo, this.name, this.email, this.mno});
+  WorkerDetails({this.workerId, this.srNo, this.name, this.email, this.mno, this.id});
 
-  WorkerDetailsState createState() => WorkerDetailsState(workerId: workerId, srNo: srNo, name: name, email: email, mno: mno);
+  WorkerDetailsState createState() => WorkerDetailsState(workerId: workerId, srNo: srNo, name: name, email: email, mno: mno, id: id);
 }
 
 class WorkerDetailsState extends State<WorkerDetails> {
   List<String> listMachine = ['JCB', 'BOB cat', 'Dumper', 'Crane'];
   List<Order> listMac = [];
   List<dynamic> list = [];
-  String workerId, srNo, name, email, mno, userType, skilled, unSkilled, techinal, turnover, experience;
+  String workerId, srNo, name, email, mno, userType, skilled, unSkilled, techinal, turnover, experience, id;
   double rating = 1;
 
-  WorkerDetailsState({this.workerId, this.srNo, this.name, this.email, this.mno});
+  WorkerDetailsState({this.workerId, this.srNo, this.name, this.email, this.mno, this.id});
 
   bool showLoader = true;
 
@@ -39,7 +39,7 @@ class WorkerDetailsState extends State<WorkerDetails> {
 
     getUserDetails();
     userType == Constants.hire ? getWorkerDetails() : getWorkerDetails();
-    print("NAME ${name} ${srNo} ${email} ${mno}");
+    print("workerId ${workerId}");
   }
 
   @override
@@ -323,30 +323,28 @@ class WorkerDetailsState extends State<WorkerDetails> {
                         SizedBox(
                           height: 18,
                         ),
-                        userType == Constants.hire
-                            ? Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  SizedBox(
-                                    height: 48,
-                                    width: Get.size.width / 3,
-                                    child: RaisedButton(
-                                        child: Text(
-                                          'Contact',
-                                          style: TextStyle(fontSize: 16, color: Colors.white),
-                                        ),
-                                        color: color.colorConvert(color.primaryColor),
-                                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
-                                        onPressed: () {
-                                          launch("tel:" + mno);
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SizedBox(
+                              height: 48,
+                              width: Get.size.width / 3,
+                              child: RaisedButton(
+                                  child: Text(
+                                    'Contact',
+                                    style: TextStyle(fontSize: 16, color: Colors.white),
+                                  ),
+                                  color: color.colorConvert(color.primaryColor),
+                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
+                                  onPressed: () {
+                                    launch("tel:" + mno);
 
-                                          updateStatus();
-                                          // Get.to(ContractorDetails());
-                                        }),
-                                  )
-                                ],
-                              )
-                            : Container()
+                                    updateStatus();
+                                    // Get.to(ContractorDetails());
+                                  }),
+                            )
+                          ],
+                        )
                       ],
                     ),
                   ),
@@ -428,11 +426,11 @@ class WorkerDetailsState extends State<WorkerDetails> {
   void updateStatus() {
     print("SST ${srNo.toString()} ${workerId.toString()}");
 
-    var map = {"sr_no": srNo, 'worker_id': workerId};
+    var map = {"sr_no": srNo, 'worker_id': id};
 
     print("SST ${map.toString()}");
     ApiHandler.postApi(ApiProvider.baseUrl, EndApi.contactStatus, map).then((value) {
-      if (value['statusCode=200']) {
+      if (value['statusCode'] == '200') {
         print("SST ${value.toString()}");
       }
     });

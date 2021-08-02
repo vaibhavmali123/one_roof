@@ -15,22 +15,22 @@ import 'package:one_roof/networking/EndApi.dart';
 import 'package:one_roof/utils/AppStrings.dart';
 import 'package:one_roof/utils/ToastMessages.dart';
 import 'package:one_roof/utils/color.dart';
+import 'package:path/path.dart' as path;
+import 'package:path_provider/path_provider.dart';
 
-class ChatPage extends StatefulWidget
-{
-  ChatPageState createState()=>ChatPageState();
-
+class ChatPage extends StatefulWidget {
+  ChatPageState createState() => ChatPageState();
 }
 
-class ChatPageState extends State<ChatPage>
-{
-  List<String>listChat=[];
-  final messageEditingCtrl=TextEditingController();
-  String userType,userId;
+class ChatPageState extends State<ChatPage> {
+  List<String> listChat = [];
+  final messageEditingCtrl = TextEditingController();
+  String userType, userId;
   final picker = ImagePicker();
   File image, croppedImage;
-  String uploadedFileUrl,fileStr;
+  String uploadedFileUrl, fileStr;
   bool showLoader;
+  List<String> extensions;
 
   @override
   void initState() {
@@ -40,8 +40,7 @@ class ChatPageState extends State<ChatPage>
   }
 
   @override
-  Widget build(BuildContext context)
-  {
+  Widget build(BuildContext context) {
     return Scaffold(
         appBar: PreferredSize(
             preferredSize: Size.fromHeight(75),
@@ -54,11 +53,7 @@ class ChatPageState extends State<ChatPage>
                     backgroundColor: Colors.transparent,
                     elevation: 0,
                     centerTitle: true,
-                    title: Text(AppStrings.chatWithUs,
-                        style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w900)),
+                    title: Text(AppStrings.chatWithUs, style: TextStyle(fontSize: 16, color: Colors.black, fontWeight: FontWeight.w900)),
                     leading: GestureDetector(
                       child: Image.asset(
                         'assets/images/back_icon.png',
@@ -71,115 +66,115 @@ class ChatPageState extends State<ChatPage>
               ],
             )),
         //bottomNavigationBar:getChatField(),
-        body:
-        Column(
+        body: Column(
           children: [
             Expanded(
-                child:ListView.builder(
-                    itemCount:listChat.length,
-                    itemBuilder:(context,index){
-                      return
-                        Align(
-                          alignment:index/2!=0?Alignment.topLeft:Alignment.topRight,
-                          child:Container(
-                            padding:EdgeInsets.all(14),
-                            margin:EdgeInsets.only(top:30,right:20,left:12),
-                            //height:80,
-                            width:Get.size.width/2,
-                            decoration:BoxDecoration(
-                              borderRadius:BorderRadius.only(bottomRight:Radius.circular(0),
-                                topRight:Radius.circular(12),bottomLeft:Radius.circular(12),
-                                topLeft:Radius.circular(12),),
-                              color:index/2==0?color.colorConvert(color.primaryColor):Colors.cyan,
+                child: ListView.builder(
+                    itemCount: listChat.length,
+                    itemBuilder: (context, index) {
+                      return Align(
+                        alignment: index / 2 != 0 ? Alignment.topLeft : Alignment.topRight,
+                        child: Container(
+                          padding: EdgeInsets.all(14),
+                          margin: EdgeInsets.only(top: 30, right: 20, left: 12),
+                          //height:80,
+                          width: Get.size.width / 2,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.only(
+                              bottomRight: Radius.circular(0),
+                              topRight: Radius.circular(12),
+                              bottomLeft: Radius.circular(12),
+                              topLeft: Radius.circular(12),
                             ),
-                            child:Center(
-                              child:Text(listChat[index],style:TextStyle(fontSize:15,color:Colors.white),),
+                            color: index / 2 == 0 ? color.colorConvert(color.primaryColor) : Colors.cyan,
+                          ),
+                          child: Center(
+                            child: Text(
+                              listChat[index],
+                              style: TextStyle(fontSize: 15, color: Colors.white),
                             ),
                           ),
-                        );
-                    })
-            ),
+                        ),
+                      );
+                    })),
             Align(
-              alignment:Alignment.bottomCenter,
-              child:getChatField(),
+              alignment: Alignment.bottomCenter,
+              child: getChatField(),
             ),
           ],
-        )
-    );
+        ));
   }
 
   getChatField() {
     return Container(
-      padding:EdgeInsets.only(top:4,bottom:8),
-      child:Row(
-        mainAxisAlignment:MainAxisAlignment.center,
+      padding: EdgeInsets.only(top: 4, bottom: 8),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           SizedBox(
-            height:50,
-            width:Get.size.width/1.4,
-            child:TextField(
-              controller:messageEditingCtrl,
-              decoration:InputDecoration(
-                  hintText:'Type a message',
-                  suffixIcon:GestureDetector(
-                    onTap:(){
-                      if (messageEditingCtrl.text.length>0) {
+            height: 50,
+            width: Get.size.width / 1.4,
+            child: TextField(
+              controller: messageEditingCtrl,
+              decoration: InputDecoration(
+                  hintText: 'Type a message',
+                  suffixIcon: GestureDetector(
+                    onTap: () {
+                      if (messageEditingCtrl.text.length > 0) {
                         sendMessage();
-                      }
-                      else{
-                        ToastMessages.showToast(message:'Please enter message',type:false);
+                      } else {
+                        ToastMessages.showToast(message: 'Please enter message', type: false);
                       }
                     },
-                    child:Image.asset('assets/images/Icon ionic-ios-send.png',height:10,width:10,),
+                    child: Image.asset(
+                      'assets/images/Icon ionic-ios-send.png',
+                      height: 10,
+                      width: 10,
+                    ),
                   ),
-                  enabledBorder:inputBorder,
-                  focusedBorder:inputBorder
-              ),
+                  enabledBorder: inputBorder,
+                  focusedBorder: inputBorder),
             ),
           ),
-          SizedBox(width:10,),
-            GestureDetector(
-              child:Container(
-                width:50,
-                height:45,
-                decoration:BoxDecoration(
-                    borderRadius:BorderRadius.circular(10.0),
-                    border:Border.all(width:1,color:Colors.black54)
-                ),
-                child:Center(
-                  child:SvgPicture.asset('assets/images/attachment-icon.svg',color:Colors.black54,),
+          SizedBox(
+            width: 10,
+          ),
+          GestureDetector(
+            child: Container(
+              width: 50,
+              height: 45,
+              decoration: BoxDecoration(borderRadius: BorderRadius.circular(10.0), border: Border.all(width: 1, color: Colors.black54)),
+              child: Center(
+                child: SvgPicture.asset(
+                  'assets/images/attachment-icon.svg',
+                  color: Colors.black54,
                 ),
               ),
-              onTap:(){
-                _showPicker(context);
-              },
-            )
+            ),
+            onTap: () {
+              _showPicker(context);
+            },
+          )
         ],
       ),
     );
   }
-  var inputBorder=OutlineInputBorder(
-      borderRadius:BorderRadius.circular(15.0),
-      borderSide:BorderSide(width:1,color:Colors.black54)
-  );
+
+  var inputBorder = OutlineInputBorder(borderRadius: BorderRadius.circular(15.0), borderSide: BorderSide(width: 1, color: Colors.black54));
 
   void sendMessage() {
     listChat.clear();
-    var map={
-      'user_id':userId,
-      'user_type':userType,
-      'message':messageEditingCtrl.text
-    };
-    ApiHandler.postApi(ApiProvider.baseUrl,EndApi.chat, map).then((value){
+    var map = {'user_id': userId, 'user_type': userType, 'message': messageEditingCtrl.text};
+    ApiHandler.postApi(ApiProvider.baseUrl, EndApi.chat, map).then((value) {
       print("MSG t ${value.toString()}");
-      if (value['result']=true) {
+      if (value['result'] = true) {
         setState(() {
           listChat.add(messageEditingCtrl.text);
           listChat.add(value['answer']);
           messageEditingCtrl.clear();
         });
         print("MSG ${value.toString()}");
-      }  
+      }
     });
   }
 
@@ -187,8 +182,8 @@ class ChatPageState extends State<ChatPage>
     Box<String> appDb;
     appDb = Hive.box(ApiKeys.appDb);
     setState(() {
-      userId=appDb.get(ApiKeys.userId);
-      userType=appDb.get(ApiKeys.type);
+      userId = appDb.get(ApiKeys.userId);
+      userType = appDb.get(ApiKeys.type);
     });
   }
 
@@ -223,6 +218,23 @@ class ChatPageState extends State<ChatPage>
   }
 
   void getDocFromLib() async {
+    String filepath = await FilePicker.getFilePath(type: FileType.any, allowedExtensions: extensions);
+    String dir = (await getApplicationDocumentsDirectory()).path;
+
+    String imgName = 'oneRoof';
+    String extension = File(filepath).path.split('.').last;
+    print("NAME extension ${extension}");
+
+    String newPath = path.join(dir, imgName + '.' + extension);
+    File f = await File(filepath);
+    File ff = await File(f.path).copy(newPath);
+    print("NAME ${ff}");
+    String fileName = ff.path.split('/').last;
+    print("NAME fileName ${fileName}");
+
+    uploader(fileName: fileName, directory: dir);
+
+/*
     FilePickerResult result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
       allowedExtensions: ['jpg', 'pdf', 'docx'],
@@ -240,6 +252,7 @@ class ChatPageState extends State<ChatPage>
 
       uploader(fileName: fileName, directory: dir);
     });
+*/
   }
 
   Future getImageFromCamera() async {
@@ -271,7 +284,7 @@ class ChatPageState extends State<ChatPage>
 
     final taskId = await uploader.enqueue(url: ApiProvider.baseUrlUpload, files: [FileItem(filename: fileName, savedDir: directory)], method: UploadMethod.POST, headers: {"apikey": "api_123456", "userkey": "userkey_123456"}, showNotification: true);
     final subscription = uploader.progress.listen((progress) {});
-    ToastMessages.showToast(message:"File submit successfully",type:true);
+    ToastMessages.showToast(message: "File submit successfully", type: true);
     final subscription1 = uploader.result.listen((result) {
 //    print("Progress result ${result.response}");
 
