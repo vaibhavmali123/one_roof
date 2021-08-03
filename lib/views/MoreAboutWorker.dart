@@ -35,11 +35,7 @@ class MoreAboutWorker extends StatefulWidget {
 }
 
 class MoreAboutWorkerState extends State<MoreAboutWorker> {
-  final List<String> _cityDropdownValues = [
-    "Pune",
-    "Mumbai",
-    "Delhi",
-  ];
+  final List<String> _cityDropdownValues = [];
   String accountType;
   bool switchedRole = false;
 
@@ -56,11 +52,7 @@ class MoreAboutWorkerState extends State<MoreAboutWorker> {
   final List<String> listSelectedSpec = [];
   List<SubcategoryList> _subCategoryDropdownValues = [];
   List<SpecialisationList> _specializationDropdownValues = [];
-  final List<String> _localityDropdownValues = [
-    "Katraj",
-    "Baner",
-    "Swargate",
-  ];
+  final List<String> _localityDropdownValues = [];
   bool isSubCatOpen = false;
   int catIdCnt;
   String catId, catIdTemp;
@@ -211,6 +203,13 @@ class MoreAboutWorkerState extends State<MoreAboutWorker> {
                                                                     setState(() {
                                                                       listSelectedSubcat.removeAt(index);
                                                                       subCatIdList.removeAt(index);
+                                                                      _specializationDropdownValues.clear();
+                                                                      selectedspecialization = null;
+                                                                      listSelectedSpec.clear();
+                                                                    });
+                                                                    setState(() {
+                                                                      subCatIdList.removeAt(index);
+                                                                      getSpecializations();
                                                                     });
                                                                     print("listSelectedSubcat ${listSelectedSubcat.toString()}");
                                                                   })
@@ -1130,7 +1129,7 @@ class MoreAboutWorkerState extends State<MoreAboutWorker> {
 
     String strSpecialisation = listSelectedSpec.toString().substring(1, listSelectedSpec.toString().length - 1);
 
-    if (selectedCity != null && selectedLoc != null && orgTextCtrl.value.text.length > 0 && selectedDesignation != null) {
+    if (selectedCity != null && selectedLoc != null && orgTextCtrl.value.text.length > 0 && selectedDesignation != null && selectedSubCategory != null) {
       var map = {
         "id": userId,
         "city": selectedCity,

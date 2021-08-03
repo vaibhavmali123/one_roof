@@ -33,8 +33,9 @@ class Result {
   String srNo;
   String amount;
   String invoice;
+  String status;
 
-  Result({this.id, this.userId, this.srNo, this.amount, this.invoice});
+  Result({this.id, this.userId, this.srNo, this.amount, this.invoice, this.status});
 
   Result.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -42,6 +43,7 @@ class Result {
     srNo = json['sr_no'];
     amount = json['amount'];
     invoice = json['invoice'];
+    status = json['status'];
   }
 
   Map<String, dynamic> toJson() {
@@ -51,6 +53,7 @@ class Result {
     data['sr_no'] = this.srNo;
     data['amount'] = this.amount;
     data['invoice'] = this.invoice;
+    data['status'] = this.status;
     return data;
   }
 }

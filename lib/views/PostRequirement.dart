@@ -401,7 +401,7 @@ class PostRequirementState extends State<PostRequirement> {
       'brief_description': briefCtrl.value.text,
       'file': uploadedFileUrl != null ? uploadedFileUrl : "exampleUrl",
       'category_name': categoryName,
-      'fcm_token': "fcmToken",
+      'fcm_token': fcmToken,
       'quantity': qtyCtrl.text.toString(),
       'unit': selectedUnit.toString() != null ? selectedUnit.toString() : "",
       "me_details": json.encode(listRequest),
@@ -410,11 +410,12 @@ class PostRequirementState extends State<PostRequirement> {
       "experience": experienceCtrl.text != null ? experienceCtrl.text : "",
       "subcategory": specialisation != null ? specialisation : "unspecified",
       "specialization": selectedValue != null ? selectedValue : "unspecified",
-      "within_date": dateStr.toString(),
+      "within_date": dateStr.toString() == null ? 'unspecified' : dateStr.toString(),
     };
     print("REQUEST D ${map.toString()}");
     ApiHandler.postApi(ApiProvider.baseUrl, EndApi.requirementsPost, map).then((value) {
       print("RESPONSE ${value.toString()}");
+      displayPopupDialog(context);
 
       if (value['user_id'] != null) {
         setState(() {
@@ -422,7 +423,7 @@ class PostRequirementState extends State<PostRequirement> {
           showLoader = false;
         });
         showLoader = false;
-        displayPopupDialog(context);
+        //displayPopupDialog(context);
       }
     });
   }

@@ -6,7 +6,8 @@ class LoginModel {
 
   LoginModel.fromJson(Map<String, dynamic> json) {
     statusCode = json['Status_code'];
-    result = json['result'] != null ? new Result.fromJson(json['result']) : null;
+    result =
+    json['result'] != null ? new Result.fromJson(json['result']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -33,7 +34,19 @@ class Result {
   String profileIncomplete;
   String categoryName;
 
-  Result({this.userId, this.firstName, this.lastName, this.mobileNumber, this.email, this.types, this.fcmToken, this.hireDesignation, this.verification, this.swithchedRole, this.profileIncomplete, this.categoryName});
+  Result(
+      {this.userId,
+        this.firstName,
+        this.lastName,
+        this.mobileNumber,
+        this.email,
+        this.types,
+        this.fcmToken,
+        this.hireDesignation,
+        this.verification,
+        this.swithchedRole,
+        this.profileIncomplete,
+        this.categoryName});
 
   Result.fromJson(Map<String, dynamic> json) {
     userId = json['user_id'];

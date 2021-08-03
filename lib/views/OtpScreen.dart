@@ -47,6 +47,7 @@ class OtpScreenState extends State<OtpScreen> {
     _firebaseMessaging = FirebaseMessaging();
     super.initState();
     startTimer();
+    getToken();
     deviceTypeBloc = DeviceTypeBloc();
     initNotification();
     print("DDDbbDDDD ${user_id.toString()}");
@@ -239,11 +240,9 @@ class OtpScreenState extends State<OtpScreen> {
     appDb = Hive.box(ApiKeys.appDb);
     String userId = Database.getUserId();
 
-    var obj = {'id': userId != null ? userId : user_id,
-      'otp': otpText.toString(), "first_name": firstName,
-      'last_name': lastName, 'fcm_token': "fcmToken", 'mobile_number': mNo, 'email': email, 'password': password, 'types': accountType};
+    var obj = {'id': userId != null ? userId : user_id, 'otp': otpText.toString(), "first_name": firstName, 'last_name': lastName, 'fcm_token': fcmToken, 'mobile_number': mNo, 'email': email, 'password': password, 'types': accountType};
     print("DDDDDDDDDD ${obj.toString()}");
-    ApiHandler.postApi(ApiProvider.baseUrl,EndApi.verifyOtp, obj).then((value) {
+    ApiHandler.postApi(ApiProvider.baseUrl, EndApi.verifyOtp, obj).then((value) {
       print("XXXXXXXXXXXXXXXXX ${value.toString()}");
       VerifyOtpModel verifyOtp;
       setState(() {
@@ -306,5 +305,14 @@ class OtpScreenState extends State<OtpScreen> {
         ),
       );
     }
+  }
+
+  void getToken() async {
+    await _firebaseMessaging.getToken().then((value) async {
+      setState(() {
+        fcmToken = value;
+      });
+    });
+    print("fcmToken ${fcmToken}");
   }
 }

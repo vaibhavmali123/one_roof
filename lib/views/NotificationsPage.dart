@@ -173,6 +173,9 @@ class NotificationsPageState extends State<NotificationsPage> {
       case 'login':
         return 'assets/images/Icon material-thumb-up.png';
         break;
+      case 'signup':
+        return 'assets/images/Icon material-thumb-up.png';
+        break;
       case 'order':
         return 'assets/images/Icon awesome-ticket-alt.png';
         break;

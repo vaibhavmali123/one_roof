@@ -157,7 +157,8 @@ class PaymentScreenState extends State<PaymentScreen> {
               color: color.colorConvert(color.primaryColor),
               onPressed: () {
                 if (total != 0) {
-                  openCheckout();
+                  updatePayment(paymentId: "dummypaymentId");
+                  //openCheckout();
                 } else {
                   ToastMessages.showToast(message: 'Please select payment', type: false);
                 }
@@ -208,7 +209,18 @@ class PaymentScreenState extends State<PaymentScreen> {
                   SizedBox(
                     height: 5,
                   ),
-                  Text(list[index].amount != null ? "₹ " + list[index].amount : " ", softWrap: false, style: GoogleFonts.openSans(textStyle: TextStyle(color: Colors.black54, fontSize: 13, fontWeight: FontWeight.w600, letterSpacing: 0.0))),
+                  Row(
+                    children: [
+                      Text(list[index].amount != null ? "₹ " + list[index].amount : " ", softWrap: false, style: GoogleFonts.openSans(textStyle: TextStyle(color: Colors.black54, fontSize: 13, fontWeight: FontWeight.w600, letterSpacing: 0.0))),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Text(
+                        list[index].status == '1' ? 'Paid' : 'Pending',
+                        style: TextStyle(color: list[index].status != '1' ? Colors.red : Colors.green),
+                      )
+                    ],
+                  ),
                 ],
               ),
               /*RaisedButton(onPressed:()async{
@@ -352,7 +364,7 @@ class PaymentScreenState extends State<PaymentScreen> {
     appDb = Hive.box(ApiKeys.appDb);
     String userId = appDb.get(ApiKeys.userId);
 
-    var map = {'user_id': userId, 'payment_id': paymentId.toString(), 'payment_status': '1', 'sr_no': json.encode(srNoList)};
+    var map = {'user_id': userId, 'payment_id': paymentId.toString(), 'payment_status': '1', 'sr_no': srNoList.toString()};
     print("REQUEST ${map.toString()}");
     ApiHandler.putApi(ApiProvider.baseUrl, EndApi.paymentUpdate, map).then((value) {
       print("PAYMENT RES ${value.toString()}");
